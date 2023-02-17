@@ -20,26 +20,26 @@ public class UserController {
 
     @PostMapping
     public User createUser(@RequestBody User user) throws ValidationException {
-        if (checkValid(user)) {
+        //   if (checkValid(user)) {
             log.info("Получен запрос на добавление пользователя");
             user.setId(userId++);
             usersMap.put(user.getId(), user);
-        } else {
+    //    } else {
             log.debug("Ошибка при добавлении пользователя{}", user);
-            throw new ValidationException("Ошибка при добавлении пользователя");
-        }
+         //   throw new ValidationException("Ошибка при добавлении пользователя");
+      //  }
         return user;
     }
 
     @PutMapping
     public User updateUser(@RequestBody User user) throws ValidationException {
-        if (checkValid(user) && usersMap.containsKey(user.getId())) {
+      //  if (checkValid(user) && usersMap.containsKey(user.getId())) {
             log.info("Получен запрос на обновление пользователя");
             usersMap.put(user.getId(), user);
-        } else {
+     //   } else {
             log.debug("Ошибка обновления пользователя {}", user);
-            throw new ValidationException("Ошибка при обновлении пользователя");
-        }
+     //       throw new ValidationException("Ошибка при обновлении пользователя");
+     //   }
         return user;
     }
 
