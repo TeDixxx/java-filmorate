@@ -19,7 +19,7 @@ public class FilmController {
     private final LocalDate releaseDate = LocalDate.of(1895, 12, 28);
 
     @PostMapping
-    public Film addFilm(Film film) throws ValidationException {
+    public Film addFilm(@RequestBody Film film) throws ValidationException {
         if (checkValid(film)) {
             log.info("Получен запрос на добавление фильма");
             film.setId(filmId++);
@@ -33,7 +33,7 @@ public class FilmController {
     }
 
     @PutMapping
-    public Film updateFilm(Film film) throws ValidationException {
+    public Film updateFilm(@RequestBody Film film) throws ValidationException {
         if (checkValid(film) && filmMap.containsKey(film.getId())) {
             log.info("Получен запрос на обновление фильма");
             filmMap.put(film.getId(), film);
