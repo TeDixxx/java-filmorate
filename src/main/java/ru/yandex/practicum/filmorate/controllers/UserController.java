@@ -59,7 +59,7 @@ public class UserController {
 
             return false;
         }
-        if (user.getName().isEmpty() || user.getName() == null || user.getName().equals(" ")) {
+        if ( user.getName() == null || user.getName().isEmpty() || user.getName().equals(" ")) {
             user.setName(user.getLogin());
         }
         return true;
