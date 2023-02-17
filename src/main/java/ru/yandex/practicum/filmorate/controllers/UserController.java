@@ -54,11 +54,12 @@ public class UserController {
                 || !user.getEmail().contains("@")
                 || user.getBirthday().isAfter(LocalDate.now())
                 || user.getLogin().contains(" ")
-                || user.getLogin().isEmpty()) {
+                || user.getLogin().isEmpty()
+                || user.getEmail() == null) {
 
             return false;
         }
-        if (user.getName().isEmpty() || user.getName() == null) {
+        if (user.getName().isEmpty() || user.getName() == null || user.getName().equals(" ")) {
             user.setName(user.getLogin());
         }
         return true;
