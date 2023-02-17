@@ -20,7 +20,7 @@ public class UserControllerTest {
 
     @Test
     void shouldAddUser() throws ValidationException {
-        User testUser = new User("developer@yandex.ru", "junior_dev", "Dmitry",
+        User testUser = new User(1,"developer@yandex.ru", "junior_dev", "Dmitry",
                 LocalDate.of(2000, 10, 14));
         userController.createUser(testUser);
         Assertions.assertEquals(1, userController.getAllUsers().size(), "Ошибка добавления пользователя");
@@ -28,7 +28,7 @@ public class UserControllerTest {
 
     @Test
     void shouldUpdateUser() throws ValidationException {
-        User testUser = new User("developer@yandex.ru", "junior_dev", "Dmitry",
+        User testUser = new User(1,"developer@yandex.ru", "junior_dev", "Dmitry",
                 LocalDate.of(2000, 10, 14));
         userController.createUser(testUser);
         User newUser = userController.updateUser(testUser);
@@ -38,21 +38,21 @@ public class UserControllerTest {
 
     @Test
     void checkValidUserEmailEmpty() {
-        User testUser = new User("", "junior_dev", "Dmitry",
+        User testUser = new User(1,"", "junior_dev", "Dmitry",
                 LocalDate.of(2000, 10, 14));
         Assertions.assertFalse(userController.checkValid(testUser));
     }
 
     @Test
     void checkValidUserEmailChar() {
-        User testUser = new User("developeryandex.ru", "junior_dev", "Dmitry",
+        User testUser = new User(1,"developeryandex.ru", "junior_dev", "Dmitry",
                 LocalDate.of(2000, 10, 14));
         Assertions.assertFalse(userController.checkValid(testUser));
     }
 
     @Test
     void checkValidUserBirthDay() {
-        User testUser = new User("developer@yandex.ru", "junior_dev", "Dmitry",
+        User testUser = new User(1,"developer@yandex.ru", "junior_dev", "Dmitry",
                 LocalDate.of(2024, 10, 14));
         Assertions.assertFalse(userController.checkValid(testUser));
     }

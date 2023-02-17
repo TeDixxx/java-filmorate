@@ -20,7 +20,7 @@ public class FilmControllerTest {
 
     @Test
     void shouldAddFilm() throws ValidationException {
-        Film testFilm = new Film("Великий Гэтсби", "Описание",
+        Film testFilm = new Film(1,"Великий Гэтсби", "Описание",
                 LocalDate.of(2013, 5, 10), 120L);
         filmController.addFilm(testFilm);
         Assertions.assertEquals(1, filmController.getAllFilms().size(), "Ошибка при добавлении фильма");
@@ -28,7 +28,7 @@ public class FilmControllerTest {
 
     @Test
     void shouldUpdateFilm() throws ValidationException {
-        Film lastFilm = new Film("Зеленая миля", "Драма",
+        Film lastFilm = new Film(1,"Зеленая миля", "Драма",
                 LocalDate.of(1999, 12, 9), 200L);
         filmController.addFilm(lastFilm);
 
@@ -38,21 +38,21 @@ public class FilmControllerTest {
 
     @Test
     void checkValidFilmName() {
-        Film testFilm = new Film("", "Описание",
+        Film testFilm = new Film(1,"", "Описание",
                 LocalDate.of(2013, 5, 10), 120L);
         Assertions.assertFalse(filmController.checkValid(testFilm));
     }
 
     @Test
     void checkValidFilmDescription200() {
-        Film testFilm = new Film("Аватар", "Описание",
+        Film testFilm = new Film(1,"Аватар", "Описание",
                 LocalDate.of(2023, 12, 9), 200L);
         Assertions.assertTrue(filmController.checkValid(testFilm));
     }
 
     @Test
     void checkValidFilmDescription201() {
-        Film testFilm = new Film("Аватар", "Счастлив писатель, который мимо характеров скучных, " +
+        Film testFilm = new Film(1,"Аватар", "Счастлив писатель, который мимо характеров скучных, " +
                 "против¬ных, поражающих печальною своею действительностью, " +
                 "приближа¬ется к характерам, являющим высокое достоинство человека, " +
                 " из великого омута ежедневно вращающихся образов избрал одни не¬многие " +
@@ -75,14 +75,14 @@ public class FilmControllerTest {
 
     @Test
     void checkValidFilmReleaseDate() {
-        Film testFilm = new Film("Кинг-Конг", "Описание",
+        Film testFilm = new Film(1,"Кинг-Конг", "Описание",
                 LocalDate.of(1700, 12, 9), 200L);
         Assertions.assertFalse(filmController.checkValid(testFilm));
     }
 
     @Test
     void checkValidFilmDuration() {
-        Film testFilm = new Film("Форсаж", "Описание",
+        Film testFilm = new Film(1,"Форсаж", "Описание",
                 LocalDate.of(1700, 12, 9), -1L);
         Assertions.assertFalse(filmController.checkValid(testFilm));
     }
