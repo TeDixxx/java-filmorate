@@ -16,30 +16,30 @@ import java.util.List;
 public class UserController {
 
     private final HashMap<Integer, User> usersMap = new HashMap<>();
-    private int userId = 0;
+    private int userId = 1;
 
     @PostMapping
     public User createUser(@RequestBody User user) throws ValidationException {
-        //   if (checkValid(user)) {
+           if (checkValid(user)) {
             log.info("Получен запрос на добавление пользователя");
             user.setId(userId++);
             usersMap.put(user.getId(), user);
-    //    } else {
+        } else {
             log.debug("Ошибка при добавлении пользователя{}", user);
-         //   throw new ValidationException("Ошибка при добавлении пользователя");
-      //  }
+            throw new ValidationException("Ошибка при добавлении пользователя");
+        }
         return user;
     }
 
     @PutMapping
     public User updateUser(@RequestBody User user) throws ValidationException {
-      //  if (checkValid(user) && usersMap.containsKey(user.getId())) {
+        if (checkValid(user) && usersMap.containsKey(user.getId())) {
             log.info("Получен запрос на обновление пользователя");
             usersMap.put(user.getId(), user);
-     //   } else {
+        } else {
             log.debug("Ошибка обновления пользователя {}", user);
-     //       throw new ValidationException("Ошибка при обновлении пользователя");
-     //   }
+           throw new ValidationException("Ошибка при обновлении пользователя");
+        }
         return user;
     }
 
@@ -56,8 +56,13 @@ public class UserController {
             return false;
         }
         if (user.getName().isEmpty()) {
-            user.setName(user.getName());
+            user.setName(user.getLogin());
         }
         return true;
+    }
+
+    public static void main(String[] args) {
+        User user = new User(1,"xxx.@mail.ru","xxx","logan",LocalDate.of(2000,10,14));
+        System.out.println(user);
     }
 }

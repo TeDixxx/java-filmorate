@@ -15,32 +15,32 @@ import java.util.List;
 @RequestMapping("/films")
 public class FilmController {
     private HashMap<Integer, Film> filmMap = new HashMap<>();
-    private int filmId = 0;
+    private int filmId = 1;
     private final LocalDate releaseDate = LocalDate.of(1895, 12, 28);
 
     @PostMapping
     public Film addFilm(@RequestBody Film film) throws ValidationException {
-       // if (checkValid(film)) {
+        if (checkValid(film)) {
             log.info("Получен запрос на добавление фильма");
             film.setId(filmId++);
             filmMap.put(film.getId(), film);
-     //  } else {
+       } else {
             log.debug("Ошибка при добавлении фильма{}", film);
-      //      throw new ValidationException("Ошибка при добавлении фильма");
-      //  }
+           throw new ValidationException("Ошибка при добавлении фильма");
+        }
 
         return film;
     }
 
     @PutMapping
     public Film updateFilm(@RequestBody Film film) throws ValidationException {
-      //  if (checkValid(film) && filmMap.containsKey(film.getId())) {
+        if (checkValid(film) && filmMap.containsKey(film.getId())) {
             log.info("Получен запрос на обновление фильма");
             filmMap.put(film.getId(), film);
-      //  } else {
+        } else {
             log.debug("Ошибка при обновлении фильма{}", film);
-     //       throw new ValidationException("Ошибка при обновлении фильма");
-      //  }
+           throw new ValidationException("Ошибка при обновлении фильма");
+        }
         return film;
     }
 
