@@ -52,7 +52,10 @@ public class UserController {
     public boolean checkValid(User user) {
         if (user.getEmail().isEmpty()
                 || !user.getEmail().contains("@")
-                || user.getBirthday().isAfter(LocalDate.now())) {
+                || user.getBirthday().isAfter(LocalDate.now())
+                || user.getLogin().contains(" ")
+                || user.getLogin().isEmpty()) {
+
             return false;
         }
         if (user.getName().isEmpty()) {
@@ -61,8 +64,4 @@ public class UserController {
         return true;
     }
 
-    public static void main(String[] args) {
-        User user = new User(1,"xxx.@mail.ru","xxx","logan",LocalDate.of(2000,10,14));
-        System.out.println(user);
-    }
 }
