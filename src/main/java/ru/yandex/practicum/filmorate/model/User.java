@@ -4,25 +4,19 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class User {
-    @NonNull
     private long id;
-    @NonNull
     private String email;
-    @NonNull
     private String login;
-    @NonNull
     private String name;
-    @NonNull
     private LocalDate birthday;
 
+    @Builder.Default
     private Set<Long> friends = new HashSet<>();
 
     public void addFriends(long id) {

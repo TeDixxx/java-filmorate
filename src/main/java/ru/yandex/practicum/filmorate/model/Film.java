@@ -3,26 +3,21 @@ package ru.yandex.practicum.filmorate.model;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;;
 
-
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Film {
-    @NonNull
     private long id;
-    @NonNull
     private String name;
-    @NonNull
     private String description;
-    @NonNull
     private LocalDate releaseDate;
-    @NonNull
     private long duration;
 
+    @Builder.Default
     private Set<Long> likes = new HashSet<>();
 
     public void addLikes(long id) {

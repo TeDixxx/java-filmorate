@@ -42,7 +42,6 @@ public class InMemoryUserStorage implements UserStorage {
         return users.get(id);
     }
 
-
     @Override
     public void removeUser(User user) {
         users.remove(user.getId());
@@ -55,16 +54,13 @@ public class InMemoryUserStorage implements UserStorage {
 
 
     public boolean checkValid(User user) {
-        if (user.getEmail().isEmpty()
-                || !user.getEmail().contains("@")
-                || user.getBirthday().isAfter(LocalDate.now())
+        if (user.getEmail().isEmpty() || !user.getEmail().contains("@") || user.getBirthday().isAfter(LocalDate.now())
                 || user.getLogin().contains(" ")
-                || user.getLogin().isEmpty()
-                || user.getEmail() == null) {
+                || user.getLogin().isEmpty()) {
 
             return false;
         }
-        if (user.getName() == null || user.getName().isEmpty() || user.getName().equals(" ")) {
+        if (user.getName().isEmpty() || user.getName().equals(" ")) {
             user.setName(user.getLogin());
         }
         return true;
