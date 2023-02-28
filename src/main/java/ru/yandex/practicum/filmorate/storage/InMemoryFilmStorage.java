@@ -18,7 +18,7 @@ public class InMemoryFilmStorage implements FilmStorage {
 
     private final HashMap<Long, Film> films = new HashMap<>();
     private final LocalDate releaseDate = LocalDate.of(1895, 12, 28);
-    private long currentID = 1;
+    private long currentID = 0;
 
     @Override
     public Film addFilm(Film film) throws ValidationException {

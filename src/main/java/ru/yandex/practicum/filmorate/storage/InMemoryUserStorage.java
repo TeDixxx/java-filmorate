@@ -13,7 +13,7 @@ import java.util.*;
 public class InMemoryUserStorage implements UserStorage {
 
     private final Map<Long, User> users = new HashMap<>();
-    private long currentID = 1;
+    private long currentID = 0;
 
     @Override
     public User createUser(User user) {
@@ -42,6 +42,7 @@ public class InMemoryUserStorage implements UserStorage {
         return users.get(id);
     }
 
+
     @Override
     public void removeUser(User user) {
         users.remove(user.getId());
@@ -54,13 +55,16 @@ public class InMemoryUserStorage implements UserStorage {
 
 
     public boolean checkValid(User user) {
-        if (user.getEmail().isEmpty() || !user.getEmail().contains("@") || user.getBirthday().isAfter(LocalDate.now())
+        if (user.getEmail().isEmpty()
+                || !user.getEmail().contains("@")
+                || user.getBirthday().isAfter(LocalDate.now())
                 || user.getLogin().contains(" ")
-                || user.getLogin().isEmpty()) {
+                || user.getLogin().isEmpty()
+                || user.getEmail() == null) {
 
             return false;
         }
-        if (user.getName().isEmpty() || user.getName().equals(" ")) {
+        if (user.getName() == null || user.getName().isEmpty() || user.getName().equals(" ")) {
             user.setName(user.getLogin());
         }
         return true;
