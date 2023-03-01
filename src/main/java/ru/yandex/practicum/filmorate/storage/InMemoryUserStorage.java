@@ -23,6 +23,7 @@ public class InMemoryUserStorage implements UserStorage {
             user.setFriends(new HashSet<>());
             users.put(user.getId(), user);
         } else {
+            log.debug("Ошибка при создании пользователя{}", user);
             throw new ValidationException("Ошибка создания пользователя");
         }
 
@@ -36,6 +37,7 @@ public class InMemoryUserStorage implements UserStorage {
             user.setFriends(new HashSet<>());
             users.put(user.getId(), user);
         } else {
+            log.debug("Ошибка при обновлении пользователя{}", user);
             throw new ValidationException("Ошибка обновления пользователя");
         }
         return user;
