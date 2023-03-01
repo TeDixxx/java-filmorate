@@ -2,8 +2,8 @@ package ru.yandex.practicum.filmorate.storage;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
-
 
 import java.time.LocalDate;
 import java.util.*;
@@ -16,23 +16,27 @@ public class InMemoryUserStorage implements UserStorage {
     private long currentID = 1;
 
     @Override
-    public User createUser(User user) {
+    public User createUser(User user) throws ValidationException {
         if (checkValid(user)) {
             log.info("Добавление пользователя");
             user.setId(currentID++);
             user.setFriends(new HashSet<>());
             users.put(user.getId(), user);
+        } else {
+            throw new ValidationException("Ошибка создания пользователя");
         }
 
         return user;
     }
 
     @Override
-    public User updateUser(User user) {
+    public User updateUser(User user) throws ValidationException {
         if (checkValid(user) && users.containsKey(user.getId())) {
             log.info("Обновление пользователя");
             user.setFriends(new HashSet<>());
             users.put(user.getId(), user);
+        } else {
+            throw new ValidationException("Ошибка обновления пользователя");
         }
         return user;
     }
