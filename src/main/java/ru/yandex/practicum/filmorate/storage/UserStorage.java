@@ -10,7 +10,7 @@ public interface UserStorage {
 
     User updateUser(User user) throws ValidationException;
 
-    User getUser(long id);
+    User getUser(long id) throws ValidationException;
 
     void removeUser(User user);
 

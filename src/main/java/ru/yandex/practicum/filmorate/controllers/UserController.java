@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public User getUser(@PathVariable long id) {
+    public User getUser(@PathVariable long id) throws ValidationException {
         return userService.getUser(id);
     }
 
@@ -41,22 +41,22 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}/friends/{friendId}")
-    public void addFriend(@PathVariable long id, @PathVariable long friendId) {
+    public void addFriend(@PathVariable long id, @PathVariable long friendId) throws ValidationException {
         userService.addFriend(id, friendId);
     }
 
     @DeleteMapping("/users/{id}/friends/{friendId}")
-    public void deleteFriend(long id, long friendId) {
+    public void deleteFriend(long id, long friendId) throws ValidationException {
         userService.deleteFriend(id, friendId);
     }
 
     @GetMapping("/users/{id}/friends")
-    public List<User> getFriends(long id) {
+    public List<User> getFriends(long id) throws ValidationException {
         return userService.getUserFriends(id);
     }
 
     @GetMapping("/users/{id}/friends/common/{otherId}")
-    public List<User> getCommonFriends(long id, long otherId) {
+    public List<User> getCommonFriends(long id, long otherId) throws ValidationException {
         return userService.getCommonFriends(id, otherId);
     }
 

@@ -44,7 +44,11 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public User getUser(long id) {
+    public User getUser(long id) throws ValidationException {
+        User user = users.get(id);
+        if (!users.containsKey(user.getId())) {
+            throw new ValidationException("Пользователь не найден!");
+        }
         return users.get(id);
     }
 

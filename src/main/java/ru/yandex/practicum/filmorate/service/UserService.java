@@ -30,24 +30,24 @@ public class UserService {
         return userStorage.getAllUsers();
     }
 
-    public User getUser(long id) {
+    public User getUser(long id) throws ValidationException {
         return userStorage.getUser(id);
     }
 
-    public void addFriend(long userId,long friendId){
+    public void addFriend(long userId,long friendId) throws ValidationException {
         getUser(userId).addFriends(friendId);
         getUser(friendId).addFriends(userId);
     }
 
 
-    public List<User> getCommonFriends(long firstUserId, long secondUserId) {
+    public List<User> getCommonFriends(long firstUserId, long secondUserId) throws ValidationException {
         List<User> commonList = new ArrayList<>(getUserFriends(firstUserId));
         commonList.retainAll(getUserFriends(secondUserId));
 
         return commonList;
     }
 
-    public List<User> getUserFriends(long id) {
+    public List<User> getUserFriends(long id) throws ValidationException {
         List<User> friendList = new ArrayList<>();
 
         for (long i : getUser(id).getFriends()) {
@@ -56,7 +56,7 @@ public class UserService {
         return friendList;
     }
 
-    public void deleteFriend(long id, long friendId) {
+    public void deleteFriend(long id, long friendId) throws ValidationException {
         getUser(id).removeFriend(friendId);
     }
 
