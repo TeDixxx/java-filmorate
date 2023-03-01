@@ -51,7 +51,7 @@ public class UserService {
         List<User> friendList = new ArrayList<>();
 
         for (long i : getUser(id).getFriends()) {
-            friendList.add(userStorage.getUser(i));
+            friendList.add(userStorage.getAllUsers().get(Math.toIntExact(i)));
         }
         return friendList;
     }
