@@ -41,7 +41,8 @@ public class InMemoryFilmStorage implements FilmStorage {
             log.info("Обновление фильма");
             films.put(film.getId(), film);
         } else {
-            log.debug("Ошибка обновления фильма");
+            log.debug("Ошибка обновления фильма{}", film);
+
         }
         return film;
     }
