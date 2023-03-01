@@ -9,6 +9,7 @@ import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @RestControllerAdvice
@@ -16,7 +17,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> handleNoSuchFilmException(final NotFoundException e) {
+    public Map<String, String> handleNoFoundFilmException(final NoSuchElementException e) {
         log.error(e.getMessage());
         return Map.of(
                 "error", "Фильм не найден",
@@ -26,7 +27,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> handleNoSuchUserException(final NotFoundException e) {
+    public Map<String, String> handleFoundUserException(final NoSuchElementException e) {
         log.error(e.getMessage());
         return Map.of(
                 "error", "Пользователь не найден",
