@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -20,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
+    @PostMapping(value = "/users")
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
@@ -30,12 +29,12 @@ public class UserController {
         return userService.getUser(id);
     }
 
-    @PutMapping
+    @PutMapping(value = "/users")
     public User updateUser(@RequestBody User user) {
         return userService.updateUser(user);
     }
 
-    @GetMapping
+    @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }

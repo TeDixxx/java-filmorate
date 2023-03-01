@@ -13,11 +13,11 @@ import java.util.*;
 public class InMemoryUserStorage implements UserStorage {
 
     private final Map<Long, User> users = new HashMap<>();
-    private long currentID = 0;
+    private long currentID = 1;
 
     @Override
     public User createUser(User user) {
-        if (checkValid(user) && users.containsKey(user.getId())) {
+        if (checkValid(user)) {
             log.info("Добавление пользователя");
             user.setId(currentID++);
             user.setFriends(new HashSet<>());
