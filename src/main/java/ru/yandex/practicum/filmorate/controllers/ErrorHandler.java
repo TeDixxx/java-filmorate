@@ -14,45 +14,45 @@ import java.util.Map;
 @RestControllerAdvice
 public class ErrorHandler {
 
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.NOT_FOUND)
-//    public Map<String, String> handleNoSuchFilmException(final NotFoundException e) {
-//        log.error(e.getMessage());
-//        return Map.of(
-//                "error", "Фильм не найден",
-//                "errorMessage", e.getMessage()
-//        );
-//    }
-//
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.NOT_FOUND)
-//    public Map<String, String> handleNoSuchUserException(final NotFoundException e) {
-//        log.error(e.getMessage());
-//        return Map.of(
-//                "error", "Пользователь не найден",
-//                "errorMessage", e.getMessage()
-//        );
-//    }
-//
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public Map<String, String> handleValidationException(final ValidationException e) {
-//        log.error(e.getMessage());
-//        return Map.of(
-//                "error", "Ошибка",
-//                "errorMessage", e.getMessage()
-//        );
-//    }
-//
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//    public Map<String, String> handleException(final Exception e) {
-//        log.error(e.getMessage());
-//        return Map.of(
-//                "error", "Ошибка",
-//                "errorMessage", e.getMessage()
-//        );
-//    }
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, String> handleNoSuchFilmException(final NotFoundException e) {
+        log.error(e.getMessage());
+        return Map.of(
+                "error", "Фильм не найден",
+                "errorMessage", e.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, String> handleNoSuchUserException(final NotFoundException e) {
+        log.error(e.getMessage());
+        return Map.of(
+                "error", "Пользователь не найден",
+                "errorMessage", e.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleValidationException(final ValidationException e) {
+        log.error(e.getMessage());
+        return Map.of(
+                "error", "Ошибка",
+                "errorMessage", e.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String, String> handleException(final Exception e) {
+        log.error(e.getMessage());
+        return Map.of(
+                "error", "Ошибка",
+                "errorMessage", e.getMessage()
+        );
+    }
 
 
 }
