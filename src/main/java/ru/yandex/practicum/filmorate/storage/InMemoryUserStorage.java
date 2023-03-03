@@ -35,7 +35,7 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public User getUser(long userID) throws NotFoundException {
+    public User getUser(Long userID) throws NotFoundException {
         User user;
         if (users.containsKey(userID)) {
             user = users.get(userID);

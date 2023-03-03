@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +27,7 @@ public class FilmService {
         return filmStorage.updateFilm(film);
     }
 
-    public Film getFilm(long filmID) {
+    public Film getFilm(Long filmID) {
         return filmStorage.getFilm(filmID);
     }
 
@@ -36,11 +35,11 @@ public class FilmService {
         return filmStorage.getAllFilms();
     }
 
-    public void addLike(long filmID, long userID) {
+    public void addLike(Long filmID, Long userID) {
         filmStorage.getFilm(filmID).addLikes(userID);
     }
 
-    public void removeLike(long filmID, long userID) {
+    public void removeLike(Long filmID, Long userID) {
         filmStorage.getFilm(filmID).removeLike(userID);
     }
 

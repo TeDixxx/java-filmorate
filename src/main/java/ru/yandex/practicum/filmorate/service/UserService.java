@@ -27,7 +27,7 @@ public class UserService {
         return userStorage.updateUser(user);
     }
 
-    public User getUser(long userID) {
+    public User getUser(Long userID) {
         return userStorage.getUser(userID);
     }
 
@@ -35,17 +35,17 @@ public class UserService {
         return userStorage.getAllUsers();
     }
 
-    public void addFriend(long userID, long friendID) {
+    public void addFriend(Long userID, Long friendID) {
         userStorage.getUser(userID).addFriends(friendID);
         userStorage.getUser(friendID).addFriends(userID);
     }
 
-    public void deleteFriend(long userID, long friendID) {
+    public void deleteFriend(Long userID, Long friendID) {
         userStorage.getUser(userID).removeFriend(friendID);
         userStorage.getUser(friendID).removeFriend(userID);
     }
 
-    public List<User> getUserFriends(long userID) {
+    public List<User> getUserFriends(Long userID) {
         List<User> userFriends = new ArrayList<>();
         for (Long id : getUser(userID).getFriends()) {
             userFriends.add(userStorage.getAllUsers().get(Math.toIntExact(id)));
