@@ -14,7 +14,7 @@ import java.util.*;
 public class InMemoryUserStorage implements UserStorage {
 
     private final Map<Long, User> users = new HashMap<>();
-    private long currentID = 1;
+    private long currentID = 0;
 
     @Override
     public User createUser(User user) throws ValidationException {
