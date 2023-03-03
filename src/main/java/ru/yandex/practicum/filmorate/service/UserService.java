@@ -6,12 +6,9 @@ import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 @Service
 public class UserService {
@@ -64,13 +61,8 @@ public class UserService {
         return userFriends;
     }
 
-    public List<User> getCommonFriends(Long userID, Long friendID) throws NotFoundException {
-
-        List<User> commonFriends = new ArrayList<>();
-        if (getUser(userID).getFriends().isEmpty()) {
-            return commonFriends;
-        }
-        commonFriends.addAll(getUserFriends(userID));
+    public List<User> getCommonFriends(Long userID, Long friendID)  {
+        List<User> commonFriends = new ArrayList<>(getUserFriends(userID));
         commonFriends.retainAll(getUserFriends(friendID));
         return commonFriends;
     }

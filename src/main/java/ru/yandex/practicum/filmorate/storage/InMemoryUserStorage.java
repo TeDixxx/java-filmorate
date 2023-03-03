@@ -30,7 +30,7 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User updateUser(User user) {
-        if (users.containsKey(user.getId())) {
+        if (users.containsKey(user.getId()) && checkValid(user)) {
             users.put(user.getId(), user);
             log.debug("Полтзователь был обновлен{}", user);
         } else throw new NotFoundException("Пользователь не найден");
