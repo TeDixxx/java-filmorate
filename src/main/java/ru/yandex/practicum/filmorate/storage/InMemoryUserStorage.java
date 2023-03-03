@@ -32,7 +32,7 @@ public class InMemoryUserStorage implements UserStorage {
     public User updateUser(User user) {
         if (users.containsKey(user.getId()) && checkValid(user)) {
             users.put(user.getId(), user);
-            log.debug("Полтзователь был обновлен{}", user);
+            log.debug("Пользователь был обновлен{}", user);
         } else {
             throw new NotFoundException("Пользователь не найден");
         }
