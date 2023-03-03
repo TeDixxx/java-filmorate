@@ -21,7 +21,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/users")
-    public User createUser(@RequestBody User user) {
+    public User createUser(@RequestBody User user) throws ValidationException {
         return userService.createUser(user);
     }
 
