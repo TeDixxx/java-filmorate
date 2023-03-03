@@ -40,7 +40,7 @@ public class UserService {
     }
 
     public void addFriend(Long userID, Long friendID) throws ValidationException {
-        if(checkValid(userStorage.getUser(userID)) && checkValid(userStorage.getUser(friendID)) && friendID >0) {
+        if(checkValid(userStorage.getUser(userID)) && checkValid(userStorage.getUser(friendID)) && friendID > 0) {
             userStorage.getUser(userID).addFriends(friendID);
             userStorage.getUser(friendID).addFriends(userID);
         } else {
@@ -55,12 +55,9 @@ public class UserService {
 
     public List<User> getUserFriends(Long userID) throws NotFoundException {
         List<User> userFriends = new ArrayList<>();
-
             for (Long id : getUser(userID).getFriends()) {
-                userFriends.add(getAllUsers().get(Math.toIntExact(id)));
+                userFriends.add(userStorage.getAllUsers().get(Math.toIntExact(id)));
             }
-
-
         return userFriends;
     }
 
