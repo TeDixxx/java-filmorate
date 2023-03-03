@@ -3,8 +3,6 @@ package ru.yandex.practicum.filmorate.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.NotFoundException;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
@@ -22,17 +20,17 @@ public class UserController {
     }
 
     @PostMapping(value = "/users")
-    public User createUser(@RequestBody User user) throws ValidationException {
+    public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 
     @GetMapping("/users/{id}")
-    public User getUser(@PathVariable long id) throws NotFoundException, ValidationException {
+    public User getUser(@PathVariable long id) {
         return userService.getUser(id);
     }
 
     @PutMapping(value = "/users")
-    public User updateUser(@RequestBody User user) throws ValidationException {
+    public User updateUser(@RequestBody User user) {
         return userService.updateUser(user);
     }
 
@@ -42,22 +40,22 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}/friends/{friendId}")
-    public void addFriend(@PathVariable long id, @PathVariable long friendId) throws ValidationException {
+    public void addFriend(@PathVariable long id, @PathVariable long friendId) {
         userService.addFriend(id, friendId);
     }
 
     @DeleteMapping("/users/{id}/friends/{friendId}")
-    public void deleteFriend(long id, long friendId) throws ValidationException {
+    public void deleteFriend(long id, long friendId) {
         userService.deleteFriend(id, friendId);
     }
 
     @GetMapping("/users/{id}/friends")
-    public List<User> getFriends(long id) throws ValidationException {
+    public List<User> getFriends(long id) {
         return userService.getUserFriends(id);
     }
 
     @GetMapping("/users/{id}/friends/common/{otherId}")
-    public List<User> getCommonFriends(long id, long otherId) throws ValidationException {
+    public List<User> getCommonFriends(long id, long otherId) {
         return userService.getCommonFriends(id, otherId);
     }
 

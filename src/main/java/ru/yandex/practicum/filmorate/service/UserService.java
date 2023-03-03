@@ -2,14 +2,11 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 
 @Service
@@ -22,15 +19,15 @@ public class UserService {
     }
 
 
-    public User createUser(User user) throws ValidationException {
+    public User createUser(User user) {
         return userStorage.createUser(user);
     }
 
-    public User updateUser(User user) throws ValidationException {
+    public User updateUser(User user) {
         return userStorage.updateUser(user);
     }
 
-    public User getUser(long userID) throws ValidationException {
+    public User getUser(long userID) {
         return userStorage.getUser(userID);
     }
 
@@ -38,33 +35,33 @@ public class UserService {
         return userStorage.getAllUsers();
     }
 
-    public void addFriend(long userID, long friendID) throws ValidationException {
+    public void addFriend(long userID, long friendID) {
         userStorage.getUser(userID).addFriends(friendID);
         userStorage.getUser(friendID).addFriends(userID);
     }
 
-    public void deleteFriend(long userID, long friendID) throws ValidationException {
+    public void deleteFriend(long userID, long friendID) {
         userStorage.getUser(userID).removeFriend(friendID);
         userStorage.getUser(friendID).removeFriend(userID);
     }
 
     public List<User> getUserFriends(long userID) {
-
-        return userStorage.getAllUsers().stream().filter(user -> {
-            try {
-                return userStorage.getUser(userID).getFriends()
-                        .contains(user.getId());
-            } catch (ValidationException e) {
-                throw new RuntimeException(e);
-            }
-        }).collect(Collectors.toList());
+        List<User> userFriends = new ArrayList<>();
+        for (Long id : getUser(userID).getFriends()) {
+            userFriends.add(userStorage.getAllUsers().get(Math.toIntExact(id)));
+        }
+        return userFriends;
     }
 
-    public List<User> getCommonFriends(Long userID, Long friendID) throws ValidationException {
-        List<Long> userFriends = new ArrayList<>(userStorage.getUser(userID).getFriends());
-        userFriends.retainAll(userStorage.getUser(friendID).getFriends());
-        return userStorage.getAllUsers().stream().filter(user -> userFriends.contains(user.getId()))
-                .collect(Collectors.toList());
+    public List<User> getCommonFriends(Long userID, Long friendID) {
+        List<User> commonFriends = new ArrayList<>();
+        if (getUser(userID).getFriends().isEmpty()) {
+            return commonFriends;
+        }
+        commonFriends.addAll(getUserFriends(userID));
+        commonFriends.retainAll(getUserFriends(friendID));
+        return commonFriends;
     }
+
 
 }
