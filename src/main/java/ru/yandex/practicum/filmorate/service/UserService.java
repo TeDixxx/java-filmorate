@@ -64,7 +64,7 @@ public class UserService {
         return userFriends;
     }
 
-    public List<User> getCommonFriends(Long userID, Long friendID) {
+    public List<User> getCommonFriends(Long userID, Long friendID) throws NotFoundException {
 
         List<User> commonFriends = new ArrayList<>();
         if (getUser(userID).getFriends().isEmpty()) {
