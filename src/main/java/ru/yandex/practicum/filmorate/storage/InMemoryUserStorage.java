@@ -33,7 +33,7 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User updateUser(User user) throws ValidationException {
-        if (checkValid(user) && users.containsKey(user.getId())) {
+        if (checkValid(user)) {
             log.info("Обновление пользователя");
             user.setFriends(new HashSet<>());
             users.put(user.getId(), user);
@@ -47,7 +47,7 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public User getUser(long id) throws NotFoundException {
         User user = users.get(id);
-        if (!users.containsKey(user.getId())) {
+        if (!users.containsKey(user.getId()) || user.getId() < 0) {
             throw new NotFoundException("Пользователь не найден!");
         }
         return users.get(id);
