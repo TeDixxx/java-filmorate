@@ -2,8 +2,11 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,9 +38,13 @@ public class UserService {
         return userStorage.getAllUsers();
     }
 
-    public void addFriend(Long userID, Long friendID) {
-        userStorage.getUser(userID).addFriends(friendID);
-        userStorage.getUser(friendID).addFriends(userID);
+    public void addFriend(Long userID, Long friendID) throws ValidationException {
+        if(checkValid(userStorage.getUser(userID)) && checkValid(userStorage.getUser(friendID))) {
+            userStorage.getUser(userID).addFriends(friendID);
+            userStorage.getUser(friendID).addFriends(userID);
+        } else {
+            throw new ValidationException("Ошибка добавления в друзья");
+        }
     }
 
     public void deleteFriend(Long userID, Long friendID) {
@@ -61,6 +68,23 @@ public class UserService {
         commonFriends.addAll(getUserFriends(userID));
         commonFriends.retainAll(getUserFriends(friendID));
         return commonFriends;
+    }
+
+
+    public boolean checkValid(User user) {
+        if (user.getEmail().isEmpty()
+                || !user.getEmail().contains("@")
+                || user.getBirthday().isAfter(LocalDate.now())
+                || user.getLogin().contains(" ")
+                || user.getLogin().isEmpty()
+                || user.getEmail() == null) {
+
+            return false;
+        }
+        if (user.getName() == null || user.getName().isEmpty() || user.getName().equals(" ")) {
+            user.setName(user.getLogin());
+        }
+        return true;
     }
 
 
