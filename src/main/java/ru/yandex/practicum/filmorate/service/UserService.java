@@ -64,12 +64,11 @@ public class UserService {
         return userFriends;
     }
 
-    public List<User> getCommonFriends(Long userID, Long friendID) {
-        List<User> commonFriends = new ArrayList<>();
+    public List<User> getCommonFriends(Long userID, Long friendID) throws NotFoundException {
         if (getUser(userID).getFriends().isEmpty()) {
-            return commonFriends;
+            throw new NotFoundException("Список друзей пуст");
         }
-        commonFriends.addAll(getUserFriends(userID));
+        List<User> commonFriends = new ArrayList<>(getUserFriends(userID));
         commonFriends.retainAll(getUserFriends(friendID));
         return commonFriends;
     }
