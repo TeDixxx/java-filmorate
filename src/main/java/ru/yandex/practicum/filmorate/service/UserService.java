@@ -65,6 +65,7 @@ public class UserService {
     }
 
     public List<User> getCommonFriends(Long userID, Long friendID) {
+
         List<User> commonFriends = new ArrayList<>();
         if (getUser(userID).getFriends().isEmpty()) {
             return commonFriends;

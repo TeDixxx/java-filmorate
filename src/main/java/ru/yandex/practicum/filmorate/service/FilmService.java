@@ -2,9 +2,11 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,14 +14,17 @@ import java.util.stream.Collectors;
 public class FilmService {
 
     private final FilmStorage filmStorage;
-
+    private final LocalDate releaseDate = LocalDate.of(1895, 12, 28);
 
     @Autowired
     public FilmService(FilmStorage filmStorage) {
         this.filmStorage = filmStorage;
     }
 
-    public Film addFilm(Film film) {
+    public Film addFilm(Film film) throws ValidationException {
+        if (!checkValid(film)) {
+            throw new ValidationException("Ошибка добавления фильма");
+        }
         return filmStorage.addFilm(film);
     }
 
@@ -46,6 +51,17 @@ public class FilmService {
     public List<Film> getPopularFilms(long count) {
         return filmStorage.getAllFilms().stream().sorted((o1, o2) -> o2.getLikes().size() - o1.getLikes().size())
                 .limit(count).collect(Collectors.toList());
+    }
+
+
+    public boolean checkValid(Film film) {
+        if (film.getName().isEmpty()
+                || film.getDescription().length() > 200
+                || film.getReleaseDate().isBefore(releaseDate)
+                || film.getDuration() < 0) {
+            return false;
+        }
+        return true;
     }
 
 
