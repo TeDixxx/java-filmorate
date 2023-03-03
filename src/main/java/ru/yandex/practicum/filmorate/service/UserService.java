@@ -55,9 +55,14 @@ public class UserService {
 
     public List<User> getUserFriends(Long userID) throws NotFoundException {
         List<User> userFriends = new ArrayList<>();
-        for (Long id : getUser(userID).getFriends()) {
-            userFriends.add(userStorage.getAllUsers().get(Math.toIntExact(id)));
+        if (userStorage.getAllUsers().contains(userID)) {
+            for (Long id : getUser(userID).getFriends()) {
+                userFriends.add(userStorage.getAllUsers().get(Math.toIntExact(id)));
+            }
+        } else {
+            throw new NotFoundException("Пользователя с таким ID не существует");
         }
+
         return userFriends;
     }
 
