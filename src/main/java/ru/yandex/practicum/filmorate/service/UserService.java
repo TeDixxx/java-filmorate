@@ -24,6 +24,9 @@ public class UserService {
 
 
     public User createUser(User user) throws ValidationException {
+       if(!checkValid(user))  {
+           throw new ValidationException("Ошибка создания пользователя");
+       }
         return userStorage.createUser(user);
     }
 

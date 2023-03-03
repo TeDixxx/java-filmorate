@@ -17,11 +17,13 @@ public class InMemoryUserStorage implements UserStorage {
     private long currentID = 1;
 
     @Override
-    public User createUser(User user) {
+    public User createUser(User user) throws ValidationException {
         if (checkValid(user)) {
             user.setId(currentID++);
             users.put(user.getId(), user);
             log.debug("Был добавлен пользователь{}", user);
+        } else {
+            throw new ValidationException("ОШИБКА СОЗДАНИЯ ПОЛЬЗОВАТЕЛЯ");
         }
         return user;
     }
