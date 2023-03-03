@@ -43,7 +43,7 @@ public class UserService {
     }
 
     public void addFriend(Long userID, Long friendID) throws ValidationException {
-        if(checkValid(userStorage.getUser(userID)) && checkValid(userStorage.getUser(friendID))) {
+        if(checkValid(userStorage.getUser(userID)) && checkValid(userStorage.getUser(friendID)) && friendID >0) {
             userStorage.getUser(userID).addFriends(friendID);
             userStorage.getUser(friendID).addFriends(userID);
         } else {
@@ -64,11 +64,12 @@ public class UserService {
         return userFriends;
     }
 
-    public List<User> getCommonFriends(Long userID, Long friendID) throws NotFoundException {
+    public List<User> getCommonFriends(Long userID, Long friendID) {
+        List<User> commonFriends = new ArrayList<>();
         if (getUser(userID).getFriends().isEmpty()) {
-            throw new NotFoundException("Список друзей пуст");
+            return commonFriends;
         }
-        List<User> commonFriends = new ArrayList<>(getUserFriends(userID));
+        commonFriends.addAll(getUserFriends(userID));
         commonFriends.retainAll(getUserFriends(friendID));
         return commonFriends;
     }
