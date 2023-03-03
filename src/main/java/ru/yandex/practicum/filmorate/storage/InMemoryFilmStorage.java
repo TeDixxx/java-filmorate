@@ -32,7 +32,7 @@ public class InMemoryFilmStorage implements FilmStorage {
 
     @Override
     public Film updateFilm(Film film) {
-        if (films.containsKey(film.getId())) {
+        if (films.containsKey(film.getId()) && checkValid(film)) {
             films.put(film.getId(), film);
             log.debug("Фильм был обновлен{}", film);
         }
