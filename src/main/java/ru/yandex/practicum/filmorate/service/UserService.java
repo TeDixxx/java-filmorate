@@ -54,9 +54,10 @@ public class UserService {
     }
 
     public List<User> getUserFriends(Long userID) throws NotFoundException {
+        User user = userStorage.getUser(userID);
         List<User> userFriends = new ArrayList<>();
-            for (Long id : getUser(userID).getFriends()) {
-                userFriends.add(userStorage.getAllUsers().get(Math.toIntExact(id)));
+            for (Long id : user.getFriends()) {
+                userFriends.add(userStorage.getUser(id));
             }
         return userFriends;
     }
