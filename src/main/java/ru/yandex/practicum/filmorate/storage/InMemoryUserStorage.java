@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.storage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
@@ -17,46 +16,34 @@ public class InMemoryUserStorage implements UserStorage {
     private long currentID = 1;
 
     @Override
-    public User createUser(User user) throws ValidationException {
+    public User createUser(User user) {
         if (checkValid(user)) {
-            log.info("Добавление пользователя");
             user.setId(currentID++);
-            user.setFriends(new HashSet<>());
             users.put(user.getId(), user);
-        } else {
-            log.debug("Ошибка при создании пользователя{}", user);
-            throw new ValidationException("Ошибка создания пользователя");
-        }
-
-        return user;
-    }
-
-    @Override
-    public User updateUser(User user) throws ValidationException {
-        if (checkValid(user)) {
-            log.info("Обновление пользователя");
-            user.setFriends(new HashSet<>());
-            users.put(user.getId(), user);
-        } else {
-            log.debug("Ошибка при обновлении пользователя{}", user);
-            throw new ValidationException("Ошибка обновления пользователя");
+            log.debug("Был добавлен пользователь{}", user);
         }
         return user;
     }
 
     @Override
-    public User getUser(long id) throws NotFoundException {
-        User user = users.get(id);
-        if (!users.containsKey(user.getId()) || user.getId() < 0) {
-            throw new NotFoundException("Пользователь не найден!");
+    public User updateUser(User user) {
+        if (users.containsKey(user.getId())) {
+            users.put(user.getId(), user);
+            log.debug("Полтзователь был обновлен{}", user);
         }
-        return users.get(id);
+        return user;
     }
 
+    @Override
+    public User getUser(long userID)  {
+        return users.get(userID);
+    }
 
     @Override
     public void removeUser(User user) {
-        users.remove(user.getId());
+        if (users.containsKey(user.getId())) {
+            users.remove(user.getId());
+        }
     }
 
     @Override

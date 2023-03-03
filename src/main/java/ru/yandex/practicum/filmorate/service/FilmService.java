@@ -6,6 +6,7 @@ import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 public class FilmService {
 
     private final FilmStorage filmStorage;
+    private final LocalDate releaseDate = LocalDate.of(1895, 12, 28);
 
     @Autowired
     public FilmService(FilmStorage filmStorage) {
@@ -27,26 +29,26 @@ public class FilmService {
         return filmStorage.updateFilm(film);
     }
 
+    public Film getFilm(long filmID) {
+        return filmStorage.getFilm(filmID);
+    }
+
     public List<Film> getAllFilms() {
         return filmStorage.getAllFilms();
     }
 
-    public Film addLike(long filmId, long id) {
-        Film value = filmStorage.getFilmByID(filmId);
-        value.addLikes(id);
-        return value;
+    public void addLike(long filmID, long userID) {
+        filmStorage.getFilm(filmID).addLikes(userID);
     }
 
-    public Film removeLike(long filmId, long id) {
-        Film value = filmStorage.getFilmByID(filmId);
-        if (value.getLikes().contains(id)) {
-            value.removeLike(id);
-        }
-        return value;
+    public void removeLike(long filmID, long userID) {
+        filmStorage.getFilm(filmID).removeLike(userID);
     }
 
-    public List<Film> getPopularFilms(int count) {
-        return filmStorage.getAllFilms().stream().sorted((a, b) -> b.getLikes().size() - a.getLikes().size())
+    public List<Film> getPopularFilms(long count) {
+        return filmStorage.getAllFilms().stream().sorted((o1, o2) -> o2.getLikes().size() - o1.getLikes().size())
                 .limit(count).collect(Collectors.toList());
     }
+
+
 }
