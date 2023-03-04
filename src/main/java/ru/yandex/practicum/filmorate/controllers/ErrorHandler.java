@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.yandex.practicum.filmorate.exception.IncorrectParameterException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
+
 import java.util.Map;
 
 @Slf4j
@@ -17,35 +18,35 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String,String> handleNotFoundException(final NotFoundException e) {
+    public Map<String, String> handleNotFoundException(final NotFoundException e) {
         log.warn("Ошибка! NotFoundException {}", e.getMessage());
         return Map.of("NotFound", e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String,String> handleIncorrectParameterException (final IncorrectParameterException e) {
+    public Map<String, String> handleIncorrectParameterException(final IncorrectParameterException e) {
         log.warn("Ошибка! IncorrectParameterException {}", e.getMessage());
         return Map.of("IncorrectParameterException", e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Map<String,String> handleNullPointerException (final NullPointerException e) {
+    public Map<String, String> handleNullPointerException(final NullPointerException e) {
         log.warn("Ошибка! NullPointerException {}", e.getMessage());
         return Map.of("NullPointerException", e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String,String> handleValidationException(final ValidationException e) {
+    public Map<String, String> handleValidationException(final ValidationException e) {
         log.warn("Ошибка! NullPointerException {}", e.getMessage());
         return Map.of("NullPointerException", e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Map<String,String> handleThrowable(final Throwable e) {
+    public Map<String, String> handleThrowable(final Throwable e) {
         log.warn("Ошибка!{}", e.getMessage());
         return Map.of("Error", e.getMessage());
     }

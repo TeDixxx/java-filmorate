@@ -32,9 +32,10 @@ public class FilmController {
         return filmService.updateFilm(film);
 
     }
+
     @GetMapping("/{id}")
     public Film getFilm(@PathVariable Long id) {
-       return filmService.getFilm(id);
+        return filmService.getFilm(id);
     }
 
     @GetMapping
@@ -44,12 +45,12 @@ public class FilmController {
 
     @PutMapping("/{id}/like/{userId}")
     public void addLike(@PathVariable Long id, @PathVariable Long userId) {
-         filmService.addLike(id, userId);
+        filmService.addLike(id, userId);
     }
 
     @DeleteMapping("/{id}/like/{userId}")
     public void deleteLike(@PathVariable Long id, @PathVariable Long userId) {
-         filmService.removeLike(id, userId);
+        filmService.removeLike(id, userId);
     }
 
     @GetMapping("/popular")

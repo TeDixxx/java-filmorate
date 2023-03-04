@@ -6,6 +6,7 @@ import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +22,9 @@ public class UserService {
 
 
     public User createUser(User user) throws ValidationException {
-       if(!checkValid(user))  {
-           throw new ValidationException("Ошибка создания пользователя");
-       }
+        if (!checkValid(user)) {
+            throw new ValidationException("Ошибка создания пользователя");
+        }
         return userStorage.createUser(user);
     }
 
@@ -40,7 +41,7 @@ public class UserService {
     }
 
     public void addFriend(Long userID, Long friendID) throws ValidationException {
-        if(checkValid(userStorage.getUser(userID)) && checkValid(userStorage.getUser(friendID)) && friendID > 0) {
+        if (checkValid(userStorage.getUser(userID)) && checkValid(userStorage.getUser(friendID)) && friendID > 0) {
             userStorage.getUser(userID).addFriends(friendID);
             userStorage.getUser(friendID).addFriends(userID);
         } else {
@@ -56,13 +57,13 @@ public class UserService {
     public List<User> getUserFriends(Long userID) throws NotFoundException {
         User user = userStorage.getUser(userID);
         List<User> userFriends = new ArrayList<>();
-            for (Long id : user.getFriends()) {
-                userFriends.add(userStorage.getUser(id));
-            }
+        for (Long id : user.getFriends()) {
+            userFriends.add(userStorage.getUser(id));
+        }
         return userFriends;
     }
 
-    public List<User> getCommonFriends(Long userID, Long friendID)  {
+    public List<User> getCommonFriends(Long userID, Long friendID) {
         List<User> commonFriends = new ArrayList<>(getUserFriends(userID));
         commonFriends.retainAll(getUserFriends(friendID));
         return commonFriends;
