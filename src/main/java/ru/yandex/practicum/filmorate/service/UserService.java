@@ -10,7 +10,6 @@ import ru.yandex.practicum.filmorate.storage.interfaces.FriendsStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
