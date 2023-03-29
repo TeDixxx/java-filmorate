@@ -18,7 +18,8 @@ public class Film {
     private Mpa mpaRating;
     private List<Genre> genres;
 
-    public Film() {}
+    public Film() {
+    }
 
     public Film(long id, String name, String description, LocalDate releaseDate, long duration) {
         this.id = id;
