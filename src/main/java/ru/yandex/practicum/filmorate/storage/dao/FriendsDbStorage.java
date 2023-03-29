@@ -32,7 +32,7 @@ public class FriendsDbStorage implements FriendsStorage {
     public List<User> getAllUserFriends(Long userId) {
         String sqlQuery = "SELECT*" + "FROM users AS u" + "LEFT OUTER JOIN user_friends AS uf ON u.user_id" +
                 "WHERE uf.user_id = ?";
-        return jdbcTemplate.query(sqlQuery,this::mapRowToUser,userId) ;
+        return jdbcTemplate.query(sqlQuery,this::mapRowToUser,userId);
     }
 
     @Override
