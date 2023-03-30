@@ -92,10 +92,8 @@ public class UserService {
     }
 
     public void isExists(Long id) {
-        if(!userStorage.isExists(id)) {
+        if (!userStorage.isExists(id)) {
             throw new NotFoundException("Не найдено!");
         }
     }
-
-
 }
