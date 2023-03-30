@@ -25,20 +25,23 @@ public class UserService {
 
 
     public User createUser(User user) throws ValidationException {
-        if (!checkValid(user)) {
+        if (!checkValid(user) ) {
             throw new ValidationException("Ошибка создания пользователя");
         }
         return userStorage.createUser(user);
     }
 
     public User updateUser(User user) throws ValidationException {
-        if (!checkValid(user)) {
+        if (!checkValid(user) && userStorage.getUser(user.getId()) == null) {
             throw new ValidationException("Ошибка обновления пользователя");
         }
         return userStorage.updateUser(user);
     }
 
     public User getUser(Long userID) {
+        if (userStorage.getUser(userID) == null ) {
+            throw new NotFoundException("Пользователь не найден");
+        }
         return userStorage.getUser(userID);
     }
 
@@ -47,7 +50,7 @@ public class UserService {
     }
 
     public void addFriend(Long userID, Long friendID) throws ValidationException {
-        if (checkValid(userStorage.getUser(userID)) && checkValid(userStorage.getUser(friendID)) && friendID < 0) {
+        if (checkValid(userStorage.getUser(userID)) && checkValid(userStorage.getUser(friendID)) && friendID > 0) {
             friendsStorage.addFriend(userID, friendID);
         } else {
             throw new ValidationException("Ошибка добавления в друзья");

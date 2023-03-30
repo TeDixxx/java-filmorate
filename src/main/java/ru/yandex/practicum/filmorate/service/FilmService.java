@@ -4,6 +4,7 @@ package ru.yandex.practicum.filmorate.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
@@ -34,11 +35,17 @@ public class FilmService {
         return filmStorage.addFilm(film);
     }
 
-    public Film updateFilm(Film film) {
+    public Film updateFilm(Film film) throws ValidationException {
+        if (!checkValid(film) && filmStorage.getFilm(film.getId()) == null) {
+            throw new ValidationException("Ошибка обновления");
+        }
         return filmStorage.updateFilm(film);
     }
 
     public Film getFilm(Long filmID) {
+        if(filmStorage.getFilm(filmID) == null) {
+            throw new NotFoundException("Фильм не найден");
+        }
         return filmStorage.getFilm(filmID);
     }
 
