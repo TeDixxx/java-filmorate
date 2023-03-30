@@ -38,7 +38,7 @@ public class FriendsDbStorage implements FriendsStorage {
 
     @Override
     public List<User> getCommonFriends(Long userId, Long secondId) {
-        String sqlQuery = "SELECT* FROM users WHERE user_id IN (SELECT friend_id FROM user_friends WHERE user_id IN(?,?) GROUP BY friend_id HAVING COUNT(friend_id >1))";
+        String sqlQuery = "SELECT* FROM users WHERE user_id IN (SELECT friend_id FROM user_friends WHERE user_id IN(?,?) GROUP BY friend_id HAVING COUNT(friend_id) >1)";
         return jdbcTemplate.query(sqlQuery,this::mapRowToUser,userId,secondId);
     }
 

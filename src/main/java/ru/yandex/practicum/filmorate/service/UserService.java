@@ -47,7 +47,7 @@ public class UserService {
         return userStorage.getAllUsers();
     }
 
-    public void addFriend(Long userID, Long friendID) throws ValidationException {
+    public void addFriend(Long userID, Long friendID) {
             isExists(userID);
             isExists(friendID);
             friendsStorage.addFriend(userID, friendID);
