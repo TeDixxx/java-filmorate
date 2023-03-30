@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.storage.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.storage.interfaces.MpaStorage;
 
@@ -20,8 +21,10 @@ public class MpaDbStorage implements MpaStorage {
 
     @Override
     public Mpa getById(Long id) {
+        if (!isExist(id)) {
+            throw new NotFoundException("Не найдено");
+        }
         String sqlQuery = "SELECT* FROM mpa WHERE mpa_id = ?";
-
         return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToRating, id);
     }
 
@@ -45,5 +48,11 @@ public class MpaDbStorage implements MpaStorage {
         mpa.setName(resultSet.getString("name"));
 
         return mpa;
+    }
+
+    private boolean isExist(Long id) {
+        String sqlQuery = "SELECT mpa_id FROM mpa WHERE mpa_id = ?";
+
+        return jdbcTemplate.queryForRowSet(sqlQuery, id).next();
     }
 }
