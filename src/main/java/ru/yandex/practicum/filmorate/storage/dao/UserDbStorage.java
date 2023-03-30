@@ -20,7 +20,6 @@ import java.util.Map;
 public class UserDbStorage implements UserStorage {
     private final JdbcTemplate jdbcTemplate;
 
-
     @Override
     public User createUser(User user) {
         Map<String, Object> sqlValues = new HashMap<>();
