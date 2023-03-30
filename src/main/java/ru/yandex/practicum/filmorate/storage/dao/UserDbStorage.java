@@ -24,10 +24,11 @@ public class UserDbStorage implements UserStorage {
     @Override
     public User createUser(User user) {
         Map<String, Object> sqlValues = new HashMap<>();
+        sqlValues.put("email", user.getEmail());
         sqlValues.put("login", user.getLogin());
         sqlValues.put("name", user.getName());
-        sqlValues.put("email", user.getEmail());
         sqlValues.put("birthday", user.getBirthday());
+
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("users")
                 .usingGeneratedKeyColumns("user_id");
@@ -38,9 +39,15 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User updateUser(User user) throws NotFoundException {
-        String sqlQuery = "UPDATE users SET name = ?, email = ?,birthday = ? WHERE user_id = ?";
+        String sqlQuery = "UPDATE users SET email = ?, login = ?, name = ?, birthday = ? WHERE user_id = ?";
 
-        jdbcTemplate.update(sqlQuery, user.getName(), user.getEmail(), user.getBirthday());
+        jdbcTemplate.update(sqlQuery,
+                user.getEmail(),
+                user.getLogin(),
+                user.getName(),
+                user.getBirthday(),
+                user.getId());
+
         return user;
     }
 
