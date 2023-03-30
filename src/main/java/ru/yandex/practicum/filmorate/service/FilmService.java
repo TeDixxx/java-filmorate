@@ -37,7 +37,7 @@ public class FilmService {
     }
 
     public Film updateFilm(Film film) throws ValidationException {
-        if (!checkValid(film) ) {
+        if (!checkValid(film)) {
             throw new ValidationException("Ошибка обновления");
         }
         isExists(film.getId());
