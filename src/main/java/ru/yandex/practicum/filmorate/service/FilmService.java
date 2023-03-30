@@ -37,17 +37,16 @@ public class FilmService {
     }
 
     public Film updateFilm(Film film) throws ValidationException {
-        if (!checkValid(film) && filmStorage.getFilm(film.getId()) == null) {
+        if (!checkValid(film) ) {
             throw new ValidationException("Ошибка обновления");
         }
+        isExists(film.getId());
         filmStorage.updateFilm(film);
         return filmStorage.getFilm(film.getId());
     }
 
     public Film getFilm(Long filmID) {
-        if (filmStorage.getFilm(filmID) == null) {
-            throw new NotFoundException("Фильм не найден");
-        }
+        isExists(filmID);
         return filmStorage.getFilm(filmID);
     }
 
@@ -56,16 +55,14 @@ public class FilmService {
     }
 
     public void addLike(Long filmID, Long userID) {
-        if (filmStorage.getFilm(filmID) == null) {
-            throw new NotFoundException("Не найдено");
-        }
+       isExists(filmID);
+       isExists(userID);
         likeStorage.deleteLike(userID, filmID);
     }
 
     public void removeLike(Long filmID, Long userID) {
-        if (filmStorage.getFilm(filmID) == null) {
-            throw new NotFoundException("Не найдено");
-        }
+       isExists(filmID);
+       isExists(userID);
         likeStorage.deleteLike(userID, filmID);
     }
 
@@ -74,6 +71,11 @@ public class FilmService {
                 .limit(count).collect(Collectors.toList());
     }
 
+    private void isExists(Long id) {
+        if (!filmStorage.isExists(id)) {
+            throw new NotFoundException("Не найдено!");
+        }
+    }
 
     public boolean checkValid(Film film) {
         final LocalDate releaseDate = LocalDate.of(1895, 12, 28);

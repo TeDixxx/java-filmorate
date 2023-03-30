@@ -88,6 +88,12 @@ public class FilmDbStorage implements FilmStorage {
         return film;
     }
 
+    @Override
+    public boolean isExists(Long id) {
+        String sqlQuery = "SELECT film_id FROM films WHERE film_id = ?";
+        return jdbcTemplate.queryForRowSet(sqlQuery, id).next();
+    }
+
     private void addGenre(Long filmId, List<Genre> genres) {
         StringBuilder sqlQuery = new StringBuilder("INSERT INTO film_genres (film_id, genre_id VALUES");
 
