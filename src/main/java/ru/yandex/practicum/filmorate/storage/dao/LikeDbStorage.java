@@ -1,8 +1,10 @@
 package ru.yandex.practicum.filmorate.storage.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.storage.interfaces.LikeStorage;
 
+@Repository
 public class LikeDbStorage implements LikeStorage {
 
     JdbcTemplate jdbcTemplate;

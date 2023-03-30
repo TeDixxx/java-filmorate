@@ -1,5 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -7,7 +9,6 @@ import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.LikeStorage;
-import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,14 +18,13 @@ import java.util.stream.Collectors;
 public class FilmService {
 
     private final FilmStorage filmStorage;
-    private final UserStorage userStorage;
     private final LikeStorage likeStorage;
-    private final LocalDate releaseDate = LocalDate.of(1895, 12, 28);
 
     @Autowired
-    public FilmService(@Qualifier("FilmDbStorage") FilmStorage filmStorage, UserStorage userStorage, LikeStorage likeStorage) {
+    public FilmService(
+            @Qualifier("filmDbStorage") FilmStorage filmStorage,
+                       LikeStorage likeStorage) {
         this.filmStorage = filmStorage;
-        this.userStorage = userStorage;
         this.likeStorage = likeStorage;
     }
 
@@ -62,6 +62,7 @@ public class FilmService {
 
 
     public boolean checkValid(Film film) {
+         final LocalDate releaseDate = LocalDate.of(1895, 12, 28);
         if (film.getName().isEmpty()
                 || film.getDescription().length() > 200
                 || film.getReleaseDate().isBefore(releaseDate)

@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.storage.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.interfaces.FriendsStorage;
 
@@ -8,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+@Repository
 public class FriendsDbStorage implements FriendsStorage {
     private final JdbcTemplate jdbcTemplate;
 
@@ -32,7 +34,7 @@ public class FriendsDbStorage implements FriendsStorage {
     public List<User> getAllUserFriends(Long userId) {
         String sqlQuery = "SELECT*" + "FROM users AS u" + "LEFT OUTER JOIN user_friends AS uf ON u.user_id" +
                 "WHERE uf.user_id = ?";
-        return jdbcTemplate.query(sqlQuery,this::mapRowToUser,userId) ;
+        return jdbcTemplate.query(sqlQuery,this::mapRowToUser,userId);
     }
 
     @Override

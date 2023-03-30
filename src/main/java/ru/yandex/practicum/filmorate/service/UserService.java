@@ -19,7 +19,7 @@ public class UserService {
     FriendsStorage friendsStorage;
 
     @Autowired
-    public UserService(@Qualifier("UserDbStorage") UserStorage userStorage, FriendsStorage friendsStorage) {
+    public UserService(@Qualifier("userDbStorage") UserStorage userStorage, FriendsStorage friendsStorage) {
         this.userStorage = userStorage;
         this.friendsStorage = friendsStorage;
     }
