@@ -20,28 +20,28 @@ public class MpaDbStorage implements MpaStorage {
 
     @Override
     public Mpa getById(Long id) {
-        String sqlQuery = "SELECT* FROM rating WHERE rating_id = ?";
+        String sqlQuery = "SELECT* FROM mpa WHERE mpa_id = ?";
 
         return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToRating, id);
     }
 
     @Override
     public List<Mpa> getAll() {
-        String sqlQuery = "SELECT* FROM rating";
+        String sqlQuery = "SELECT* FROM mpa";
 
         return jdbcTemplate.query(sqlQuery, this::mapRowToRating);
     }
 
     @Override
     public Mpa getFilmMpa(Long filmId) {
-        String sqlQuery = "SELECT* FROM rating WHERE rating_id = ?";
+        String sqlQuery = "SELECT* FROM mpa WHERE mpa_id = ?";
 
         return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToRating, filmId);
     }
 
     private Mpa mapRowToRating(ResultSet resultSet, int rowNumber) throws SQLException {
         Mpa mpa = new Mpa();
-        mpa.setId(resultSet.getLong("rating_id"));
+        mpa.setId(resultSet.getLong("mpa_id"));
         mpa.setName(resultSet.getString("name"));
 
         return mpa;

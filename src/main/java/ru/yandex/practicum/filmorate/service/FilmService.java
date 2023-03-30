@@ -54,10 +54,16 @@ public class FilmService {
     }
 
     public void addLike(Long filmID, Long userID) {
+        if (filmStorage.getFilm(filmID) == null) {
+            throw new NotFoundException("Не найдено");
+        }
         likeStorage.deleteLike(userID, filmID);
     }
 
     public void removeLike(Long filmID, Long userID) {
+        if (filmStorage.getFilm(filmID) == null) {
+            throw new NotFoundException("Не найдено");
+        }
         likeStorage.deleteLike(userID, filmID);
     }
 

@@ -31,7 +31,7 @@ public class FilmDbStorage implements FilmStorage {
         sqlValues.put("description",film.getDescription());
         sqlValues.put("release_date",film.getReleaseDate());
         sqlValues.put("duration",film.getDuration());
-        sqlValues.put("mpa_id",film.getMpaRating());
+        sqlValues.put("mpa_id",film.getMpaId());
 
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("films")
@@ -50,7 +50,7 @@ public class FilmDbStorage implements FilmStorage {
                 film.getDescription(),
                 film.getReleaseDate(),
                 film.getDuration(),
-                film.getMpaRating().getId(),
+                film.getMpaId().getId(),
                 film.getId());
 
         return film;
@@ -76,7 +76,7 @@ public class FilmDbStorage implements FilmStorage {
         film.setName(resultSet.getString("name"));
         film.setDescription(resultSet.getString("description"));
         film.setReleaseDate(resultSet.getDate("release_date").toLocalDate());
-        film.setMpaRating(mpaStorage.getFilmMpa(resultSet.getLong("mpa_id")));
+        film.setMpaId(mpaStorage.getFilmMpa(resultSet.getLong("mpa_id")));
         film.setGenres(genreStorage.getFilmGenre(film.getId()));
 
         return film;

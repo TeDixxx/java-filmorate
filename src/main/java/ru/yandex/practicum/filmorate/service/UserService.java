@@ -62,12 +62,16 @@ public class UserService {
     }
 
     public List<User> getUserFriends(Long userID) throws NotFoundException {
-
+        if (userStorage.getUser(userID) == null) {
+            throw new NotFoundException("Пользователь не найден");
+        }
         return friendsStorage.getAllUserFriends(userID);
     }
 
     public List<User> getCommonFriends(Long userID, Long friendID) {
-
+        if (userStorage.getUser(userID) == null && userStorage.getUser(friendID) == null) {
+            throw new NotFoundException("Пользователи не найдены");
+        }
         return friendsStorage.getCommonFriends(userID, friendID);
     }
 
