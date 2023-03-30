@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
@@ -65,8 +66,17 @@ public class FilmDbStorage implements FilmStorage {
     @Override
     public Film getFilm(Long filmId) {
         String sqlQuery = "SELECT* FROM films WHERE film_id = ?";
+
         List<Film> query = jdbcTemplate.query(sqlQuery, this::mapRowToFilm, filmId);
-        return query.get(0);
+        switch (query.size()) {
+            case 0:
+                return null;
+            case 1:
+                return query.get(0);
+            default:
+                throw new NotFoundException("Не найдено");
+
+        }
     }
 
     @Override
