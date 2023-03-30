@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.GenreStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.MpaStorage;
@@ -12,6 +13,7 @@ import ru.yandex.practicum.filmorate.storage.interfaces.MpaStorage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -25,18 +27,20 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film addFilm(Film film) {
-        Map<String,Object> sqlValues = new HashMap<>();
+        Map<String, Object> sqlValues = new HashMap<>();
 
-        sqlValues.put("name",film.getName());
-        sqlValues.put("description",film.getDescription());
-        sqlValues.put("release_date",film.getReleaseDate());
-        sqlValues.put("duration",film.getDuration());
-        sqlValues.put("mpa_id",film.getMpaId().getId());
+        sqlValues.put("name", film.getName());
+        sqlValues.put("description", film.getDescription());
+        sqlValues.put("release_date", film.getReleaseDate());
+        sqlValues.put("duration", film.getDuration());
+        sqlValues.put("mpa_id", film.getMpaId().getId());
 
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("films")
                 .usingGeneratedKeyColumns("film_id");
         film.setId(simpleJdbcInsert.executeAndReturnKey(sqlValues).longValue());
+
+        addGenre(film.getId(), film.getGenres());
 
         return film;
     }
@@ -53,6 +57,8 @@ public class FilmDbStorage implements FilmStorage {
                 film.getMpaId().getId(),
                 film.getId());
 
+        addGenre(film.getId(), film.getGenres());
+
         return film;
     }
 
@@ -60,17 +66,17 @@ public class FilmDbStorage implements FilmStorage {
     public Film getFilm(Long filmId) {
         String sqlQuery = "SELECT* FROM films WHERE film_id = ?";
 
-        return jdbcTemplate.queryForObject(sqlQuery,this::mapRowToFilm,filmId);
+        return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToFilm, filmId);
     }
 
     @Override
     public List<Film> getAllFilms() {
         String sqlQuery = "SELECT* FROM films";
 
-        return jdbcTemplate.query(sqlQuery,this::mapRowToFilm);
+        return jdbcTemplate.query(sqlQuery, this::mapRowToFilm);
     }
 
-    private Film mapRowToFilm(ResultSet resultSet,int rowNumber) throws SQLException {
+    private Film mapRowToFilm(ResultSet resultSet, int rowNumber) throws SQLException {
         Film film = new Film();
         film.setId(resultSet.getInt("film_id"));
         film.setName(resultSet.getString("name"));
@@ -80,5 +86,14 @@ public class FilmDbStorage implements FilmStorage {
         film.setGenres(genreStorage.getFilmGenre(film.getId()));
 
         return film;
+    }
+
+    private void addGenre(Long filmId, List<Genre> genres) {
+        StringBuilder sqlQuery = new StringBuilder("INSERT INTO film_genres (film_id, genre_id VALUES");
+
+        for (Genre genre : new HashSet<>(genres)) {
+            sqlQuery.append("(").append(filmId).append(",").append(genre.getId()).append("),");
+        }
+        jdbcTemplate.update(sqlQuery.toString());
     }
 }

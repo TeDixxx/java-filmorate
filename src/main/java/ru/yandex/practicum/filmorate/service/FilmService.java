@@ -32,7 +32,8 @@ public class FilmService {
         if (!checkValid(film)) {
             throw new ValidationException("Ошибка добавления фильма");
         }
-        return filmStorage.addFilm(film);
+
+        return filmStorage.getFilm(film.getId());
     }
 
     public Film updateFilm(Film film) throws ValidationException {
@@ -40,7 +41,7 @@ public class FilmService {
             throw new ValidationException("Ошибка обновления");
         }
         filmStorage.updateFilm(film);
-        return film;
+        return filmStorage.getFilm(film.getId());
     }
 
     public Film getFilm(Long filmID) {
@@ -85,5 +86,6 @@ public class FilmService {
         return true;
     }
 
-
 }
+
+
