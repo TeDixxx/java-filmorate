@@ -23,7 +23,6 @@ public class UserService {
         this.friendsStorage = friendsStorage;
     }
 
-
     public User createUser(User user) throws ValidationException {
         if (!checkValid(user)) {
             throw new ValidationException("Ошибка создания пользователя");
@@ -32,16 +31,15 @@ public class UserService {
     }
 
     public User updateUser(User user) throws NotFoundException {
-        if (!checkValid(user) && userStorage.getUser(user.getId()) == null) {
+        if (!checkValid(user)) {
             throw new NotFoundException("Ошибка обновления пользователя, user not found");
         }
+        isExists(user.getId());
         return userStorage.updateUser(user);
     }
 
     public User getUser(Long userID) throws NotFoundException {
-        if (userStorage.getUser(userID) == null) {
-            throw new NotFoundException("Пользователь не найден");
-        }
+        isExists(userID);
         return userStorage.getUser(userID);
     }
 
@@ -50,7 +48,9 @@ public class UserService {
     }
 
     public void addFriend(Long userID, Long friendID) throws ValidationException {
-        if (checkValid(userStorage.getUser(userID)) && checkValid(userStorage.getUser(friendID)) && friendID > 0) {
+        if (checkValid(userStorage.getUser(userID)) && friendID > 0) {
+            isExists(userID);
+            isExists(friendID);
             friendsStorage.addFriend(userID, friendID);
         } else {
             throw new ValidationException("Ошибка добавления в друзья");
@@ -58,20 +58,19 @@ public class UserService {
     }
 
     public void deleteFriend(Long userID, Long friendID) {
+        isExists(userID);
+        isExists(friendID);
         friendsStorage.deleteFriend(userID, friendID);
     }
 
     public List<User> getUserFriends(Long userID) throws NotFoundException {
-        if (userStorage.getUser(userID) == null) {
-            throw new NotFoundException("Пользователь не найден");
-        }
+       isExists(userID);
         return friendsStorage.getAllUserFriends(userID);
     }
 
     public List<User> getCommonFriends(Long userID, Long friendID) {
-        if (userStorage.getUser(userID) == null && userStorage.getUser(friendID) == null) {
-            throw new NotFoundException("Пользователи не найдены");
-        }
+       isExists(userID);
+       isExists(friendID);
         return friendsStorage.getCommonFriends(userID, friendID);
     }
 
@@ -90,6 +89,12 @@ public class UserService {
             user.setName(user.getLogin());
         }
         return true;
+    }
+
+    public void isExists(Long id) {
+        if(!userStorage.isExists(id)) {
+            throw new NotFoundException("Не найдено!");
+        }
     }
 
 
