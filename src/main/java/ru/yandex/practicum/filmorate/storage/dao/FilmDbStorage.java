@@ -64,7 +64,7 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film getFilm(Long filmId) {
-        String sqlQuery = "SELECT* FROM films WHERE film_id = ?";
+        String sqlQuery = "SELECT film_id,name,description,release_date,duration,mpa_id FROM films WHERE film_id = ?";
 
         return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToFilm, filmId);
     }
