@@ -39,7 +39,8 @@ public class FilmService {
         if (!checkValid(film) && filmStorage.getFilm(film.getId()) == null) {
             throw new ValidationException("Ошибка обновления");
         }
-        return filmStorage.updateFilm(film);
+        filmStorage.updateFilm(film);
+        return film;
     }
 
     public Film getFilm(Long filmID) {

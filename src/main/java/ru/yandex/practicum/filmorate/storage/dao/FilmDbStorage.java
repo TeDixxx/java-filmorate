@@ -31,7 +31,7 @@ public class FilmDbStorage implements FilmStorage {
         sqlValues.put("description",film.getDescription());
         sqlValues.put("release_date",film.getReleaseDate());
         sqlValues.put("duration",film.getDuration());
-        sqlValues.put("mpa_id",film.getMpaId());
+        sqlValues.put("mpa_id",film.getMpaId().getId());
 
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("films")
