@@ -48,13 +48,9 @@ public class UserService {
     }
 
     public void addFriend(Long userID, Long friendID) throws ValidationException {
-        if (checkValid(userStorage.getUser(userID)) && friendID > 0) {
             isExists(userID);
             isExists(friendID);
             friendsStorage.addFriend(userID, friendID);
-        } else {
-            throw new ValidationException("Ошибка добавления в друзья");
-        }
     }
 
     public void deleteFriend(Long userID, Long friendID) {
