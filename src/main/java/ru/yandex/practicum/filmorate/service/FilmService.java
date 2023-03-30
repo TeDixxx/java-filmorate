@@ -37,7 +37,7 @@ public class FilmService {
             throw new ValidationException("Ошибка добавления фильма");
         }
         filmStorage.addFilm(film);
-        return filmStorage.getFilm(film.getId());
+        return getFilm(film.getId());
     }
 
     public Film updateFilm(Film film) throws ValidationException {

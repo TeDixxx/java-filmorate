@@ -42,7 +42,7 @@ public class FilmDbStorage implements FilmStorage {
 
         addGenre(film.getId(), film.getGenres());
 
-        return film;
+        return getFilm(film.getId());
     }
 
     @Override
@@ -66,7 +66,7 @@ public class FilmDbStorage implements FilmStorage {
     public Film getFilm(Long filmId) {
         String sqlQuery = "SELECT* FROM films WHERE film_id = ?";
 
-        return jdbcTemplate.queryForObject(sqlQuery,this::mapRowToFilm,filmId);
+        return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToFilm, filmId);
     }
 
     @Override
@@ -96,11 +96,16 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     private void addGenre(Long filmId, List<Genre> genres) {
-        StringBuilder sqlQuery = new StringBuilder("INSERT INTO film_genres (film_id, genre_id VALUES");
 
-        for (Genre genre : new HashSet<>(genres)) {
-            sqlQuery.append("(").append(filmId).append(",").append(genre.getId()).append("),");
+        if (genres != null) {
+            if (!genres.isEmpty()) {
+                StringBuilder sqlQuery = new StringBuilder("INSERT INTO film_genres (film_id, genre_id VALUES");
+                for (Genre genre : new HashSet<>(genres)) {
+                    sqlQuery.append("(").append(filmId).append(",").append(genre.getId()).append("),");
+                }
+                sqlQuery.delete(sqlQuery.length() - 2, sqlQuery.length());
+                jdbcTemplate.update(sqlQuery.toString());
+            }
         }
-        jdbcTemplate.update(sqlQuery.toString());
     }
 }
