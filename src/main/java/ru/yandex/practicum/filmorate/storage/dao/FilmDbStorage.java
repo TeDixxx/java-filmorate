@@ -31,7 +31,7 @@ public class FilmDbStorage implements FilmStorage {
         sqlValues.put("description",film.getDescription());
         sqlValues.put("release_date",film.getReleaseDate());
         sqlValues.put("duration",film.getDuration());
-        sqlValues.put("rating_id",film.getMpaRating());
+        sqlValues.put("mpa_id",film.getMpaRating());
 
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("films")
@@ -43,7 +43,7 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film updateFilm(Film film) {
-        String sqlQuery = "UPDATE films SET name = ?, description = ?,release_date = ?, duration = ?, rating_id = ? WHERE film_id = ?";
+        String sqlQuery = "UPDATE films SET name = ?, description = ?,release_date = ?, duration = ?, mpa_id = ? WHERE film_id = ?";
 
         jdbcTemplate.update(sqlQuery,
                 film.getName(),
@@ -76,7 +76,7 @@ public class FilmDbStorage implements FilmStorage {
         film.setName(resultSet.getString("name"));
         film.setDescription(resultSet.getString("description"));
         film.setReleaseDate(resultSet.getDate("release_date").toLocalDate());
-        film.setMpaRating(mpaStorage.getFilmMpa(resultSet.getLong("rating_id")));
+        film.setMpaRating(mpaStorage.getFilmMpa(resultSet.getLong("mpa_id")));
         film.setGenres(genreStorage.getFilmGenre(film.getId()));
 
         return film;
