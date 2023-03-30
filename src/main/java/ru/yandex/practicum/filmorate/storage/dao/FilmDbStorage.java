@@ -46,8 +46,7 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film updateFilm(Film film) {
-        String sqlQuery = "UPDATE films" + "SET name = ?, description = ?,release_date = ?, duration = ?, rating_id = ?"
-                + "WHERE film_id = ?";
+        String sqlQuery = "UPDATE films SET name = ?, description = ?,release_date = ?, duration = ?, rating_id = ? WHERE film_id = ?";
 
         jdbcTemplate.update(sqlQuery,
                 film.getName(),
@@ -62,14 +61,14 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film getFilm(Long filmId) {
-        String sqlQuery = "SELECT*" + "FROM films" + "WHERE film_id = ?";
+        String sqlQuery = "SELECT* FROM films WHERE film_id = ?";
 
         return jdbcTemplate.queryForObject(sqlQuery,this::mapRowToFilm,filmId);
     }
 
     @Override
     public List<Film> getAllFilms() {
-        String sqlQuery = "SELECT*" + "FROM films";
+        String sqlQuery = "SELECT* FROM films";
 
         return jdbcTemplate.query(sqlQuery,this::mapRowToFilm);
     }

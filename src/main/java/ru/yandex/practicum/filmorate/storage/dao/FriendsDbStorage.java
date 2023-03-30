@@ -19,28 +19,26 @@ public class FriendsDbStorage implements FriendsStorage {
 
     @Override
     public void addFriend(Long userId, Long friendId) {
-        String sqlQuery = "INSERT INTO user_friends (user_id,friend_id)" + "VALUES (?,?)";
+        String sqlQuery = "INSERT INTO user_friends (user_id,friend_id) VALUES (?,?)";
 
         jdbcTemplate.update(sqlQuery, userId, friendId);
     }
 
     @Override
     public void deleteFriend(Long userId, Long friendId) {
-        String sqlQuery = "DELETE FROM user_friends" + "WHERE user_id = ? AND friend_id = ?";
+        String sqlQuery = "DELETE FROM user_friends WHERE user_id = ? AND friend_id = ?";
         jdbcTemplate.update(sqlQuery, userId, friendId);
     }
 
     @Override
     public List<User> getAllUserFriends(Long userId) {
-        String sqlQuery = "SELECT*" + "FROM users AS u" + "LEFT OUTER JOIN user_friends AS uf ON u.user_id" +
-                "WHERE uf.user_id = ?";
+        String sqlQuery = "SELECT* FROM users AS u LEFT OUTER JOIN user_friends AS uf ON u.user_id WHERE uf.user_id = ?";
         return jdbcTemplate.query(sqlQuery,this::mapRowToUser,userId);
     }
 
     @Override
     public List<User> getCommonFriends(Long userId, Long secondId) {
-        String sqlQuery = "SELECT*" + "FROM users" + "WHERE user_id IN" + "(SELECT friend_id FROM user_friends " +
-                "WHERE user_id IN(?,?) GROUP BY friend_id HAVING COUNT(friend_id >1))";
+        String sqlQuery = "SELECT* FROM users WHERE user_id IN (SELECT friend_id FROM user_friends WHERE user_id IN(?,?) GROUP BY friend_id HAVING COUNT(friend_id >1))";
         return jdbcTemplate.query(sqlQuery,this::mapRowToUser,userId,secondId);
     }
 

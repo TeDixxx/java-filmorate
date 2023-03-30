@@ -19,24 +19,21 @@ public class GenreDbStorage implements GenreStorage {
 
     @Override
     public Genre getById(Long id) {
-        String sqlQuery = "SELECT*" + "FROM genre" + "WHERE genre_id = ?";
+        String sqlQuery = "SELECT* FROM genre WHERE genre_id = ?";
 
         return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToGenre, id);
     }
 
     @Override
     public List<Genre> getAll() {
-        String sqlQuery = "SELECT*" + "FROM genre";
+        String sqlQuery = "SELECT* FROM genre";
 
         return jdbcTemplate.query(sqlQuery, this::mapRowToGenre);
     }
 
     @Override
     public List<Genre> getFilmGenre(Long filmId) {
-        String sqlQuery = "SELECT*" +
-                "FROM genre AS gen" +
-                "LEFT OUTER JOIN film_genre AS fg ON gen.genre_id = fg.genre_id" +
-                "WHERE fg.film_id = ?" + "ORDER BY gen.genre_id";
+        String sqlQuery = "SELECT*FROM genre AS gen LEFT OUTER JOIN film_genre AS fg ON gen.genre_id = fg.genre_id WHERE fg.film_id = ? ORDER BY gen.genre_id";
 
         return jdbcTemplate.query(sqlQuery, this::mapRowToGenre);
     }
