@@ -23,7 +23,7 @@ public class FilmService {
     @Autowired
     public FilmService(
             @Qualifier("filmDbStorage") FilmStorage filmStorage,
-                       LikeStorage likeStorage) {
+            LikeStorage likeStorage) {
         this.filmStorage = filmStorage;
         this.likeStorage = likeStorage;
     }
@@ -43,7 +43,7 @@ public class FilmService {
     }
 
     public Film getFilm(Long filmID) {
-        if(filmStorage.getFilm(filmID) == null) {
+        if (filmStorage.getFilm(filmID) == null) {
             throw new NotFoundException("Фильм не найден");
         }
         return filmStorage.getFilm(filmID);
@@ -54,11 +54,11 @@ public class FilmService {
     }
 
     public void addLike(Long filmID, Long userID) {
-        likeStorage.deleteLike(userID,filmID);
+        likeStorage.deleteLike(userID, filmID);
     }
 
     public void removeLike(Long filmID, Long userID) {
-        likeStorage.deleteLike(userID,filmID);
+        likeStorage.deleteLike(userID, filmID);
     }
 
     public List<Film> getPopularFilms(long count) {
@@ -68,7 +68,7 @@ public class FilmService {
 
 
     public boolean checkValid(Film film) {
-         final LocalDate releaseDate = LocalDate.of(1895, 12, 28);
+        final LocalDate releaseDate = LocalDate.of(1895, 12, 28);
         if (film.getName().isEmpty()
                 || film.getDescription().length() > 200
                 || film.getReleaseDate().isBefore(releaseDate)

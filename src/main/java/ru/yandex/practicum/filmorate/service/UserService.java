@@ -25,7 +25,7 @@ public class UserService {
 
 
     public User createUser(User user) throws ValidationException {
-        if (!checkValid(user) ) {
+        if (!checkValid(user)) {
             throw new ValidationException("Ошибка создания пользователя");
         }
         return userStorage.createUser(user);
@@ -39,7 +39,7 @@ public class UserService {
     }
 
     public User getUser(Long userID) {
-        if (userStorage.getUser(userID) == null ) {
+        if (userStorage.getUser(userID) == null) {
             throw new NotFoundException("Пользователь не найден");
         }
         return userStorage.getUser(userID);

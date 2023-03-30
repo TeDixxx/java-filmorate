@@ -69,7 +69,7 @@ public class UserDbStorage implements UserStorage {
     public List<User> getAllUsers() {
         String sqlQuery = "SELECT* FROM users";
 
-        return jdbcTemplate.query(sqlQuery,this::mapRowToUser);
+        return jdbcTemplate.query(sqlQuery, this::mapRowToUser);
     }
 
     private User mapRowToUser(ResultSet resultSet, int rowNumber) throws SQLException {
