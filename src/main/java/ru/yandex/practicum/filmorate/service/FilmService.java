@@ -9,6 +9,7 @@ import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.LikeStorage;
+import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,20 +20,23 @@ public class FilmService {
 
     private final FilmStorage filmStorage;
     private final LikeStorage likeStorage;
+    private final UserService userService;
 
     @Autowired
     public FilmService(
             @Qualifier("filmDbStorage") FilmStorage filmStorage,
-            LikeStorage likeStorage) {
+            LikeStorage likeStorage, UserService userService) {
         this.filmStorage = filmStorage;
         this.likeStorage = likeStorage;
+        this.userService = userService;
+
     }
 
     public Film addFilm(Film film) throws ValidationException {
         if (!checkValid(film)) {
             throw new ValidationException("Ошибка добавления фильма");
         }
-
+        filmStorage.addFilm(film);
         return filmStorage.getFilm(film.getId());
     }
 
@@ -55,14 +59,14 @@ public class FilmService {
     }
 
     public void addLike(Long filmID, Long userID) {
-       isExists(filmID);
-       isExists(userID);
+        isExists(filmID);
+        userService.isExists(userID);
         likeStorage.deleteLike(userID, filmID);
     }
 
     public void removeLike(Long filmID, Long userID) {
-       isExists(filmID);
-       isExists(userID);
+        isExists(filmID);
+        userService.isExists(userID);
         likeStorage.deleteLike(userID, filmID);
     }
 
