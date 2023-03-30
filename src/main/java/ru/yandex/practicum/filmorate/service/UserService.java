@@ -31,14 +31,14 @@ public class UserService {
         return userStorage.createUser(user);
     }
 
-    public User updateUser(User user) throws ValidationException {
+    public User updateUser(User user) throws NotFoundException {
         if (!checkValid(user) && userStorage.getUser(user.getId()) == null) {
-            throw new ValidationException("Ошибка обновления пользователя");
+            throw new NotFoundException("Ошибка обновления пользователя, user not found");
         }
         return userStorage.updateUser(user);
     }
 
-    public User getUser(Long userID) {
+    public User getUser(Long userID) throws NotFoundException {
         if (userStorage.getUser(userID) == null) {
             throw new NotFoundException("Пользователь не найден");
         }
