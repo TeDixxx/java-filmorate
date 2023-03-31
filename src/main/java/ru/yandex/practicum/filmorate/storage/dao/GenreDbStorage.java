@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.storage.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.interfaces.GenreStorage;
 
@@ -19,13 +20,13 @@ public class GenreDbStorage implements GenreStorage {
     }
 
     @Override
-    public Genre getById(Long id) {
-        try {
+    public Genre getById(Long id) throws ValidationException {
+        if(!isExist(id)) {
+            throw new ValidationException("Не найдено");
+        }
             String sqlQuery = "SELECT* FROM genres WHERE genre_id = ?";
             return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToGenre, id);
-        } catch (Exception exception) {
-            return null;
-        }
+
     }
 
     @Override
