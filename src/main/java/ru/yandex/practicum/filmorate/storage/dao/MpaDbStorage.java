@@ -22,9 +22,7 @@ public class MpaDbStorage implements MpaStorage {
 
     @Override
     public Mpa getById(Long id) throws ValidationException {
-        if (!isExist(id)) {
-            throw new ValidationException("Не найдено");
-        }
+        if (id == null) throw new ValidationException("Не найдено");
         String sqlQuery = "SELECT* FROM mpa WHERE mpa_id = ?";
         return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToRating, id);
 
