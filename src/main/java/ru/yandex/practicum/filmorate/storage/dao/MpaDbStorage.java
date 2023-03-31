@@ -37,6 +37,7 @@ public class MpaDbStorage implements MpaStorage {
 
     @Override
     public Mpa getFilmMpa(Long mpaId) {
+        isExist(mpaId);
         String sqlQuery = "SELECT* FROM mpa WHERE mpa_id = ?";
 
         return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToRating, mpaId);
