@@ -25,8 +25,10 @@ public class FilmDbStorage implements FilmStorage {
     private final MpaStorage mpaStorage;
     private final GenreStorage genreStorage;
 
+
     @Override
-    public Film addFilm(Film film) {
+    public void addFilm(Film film) {
+
         Map<String, Object> sqlValues = new HashMap<>();
 
         sqlValues.put("name", film.getName());
@@ -41,13 +43,11 @@ public class FilmDbStorage implements FilmStorage {
         film.setId(simpleJdbcInsert.executeAndReturnKey(sqlValues).longValue());
 
         addGenre(film.getId(), film.getGenres());
-
-        return getFilm(film.getId());
     }
 
     @Override
-    public Film updateFilm(Film film) {
-        String sqlQuery = "UPDATE films SET name = ?, description = ?,release_date = ?, duration = ?, mpa_id = ? WHERE film_id = ?";
+    public void updateFilm(Film film) {
+        String sqlQuery = "SELECT FROM films WHERE film_id = ?";
 
         jdbcTemplate.update(sqlQuery,
                 film.getName(),
@@ -59,7 +59,6 @@ public class FilmDbStorage implements FilmStorage {
 
         addGenre(film.getId(), film.getGenres());
 
-        return film;
     }
 
     @Override
@@ -76,6 +75,13 @@ public class FilmDbStorage implements FilmStorage {
         return jdbcTemplate.query(sqlQuery, this::mapRowToFilm);
     }
 
+    @Override
+    public boolean isExists(Long id) {
+        String sqlQuery = "SELECT film_id FROM films WHERE film_id = ?";
+        return jdbcTemplate.queryForRowSet(sqlQuery, id).next();
+    }
+
+
     private Film mapRowToFilm(ResultSet resultSet, int rowNumber) throws SQLException {
         Film film = new Film();
         film.setId(resultSet.getInt("film_id"));
@@ -87,12 +93,6 @@ public class FilmDbStorage implements FilmStorage {
         film.setGenres(genreStorage.getFilmGenre(film.getId()));
 
         return film;
-    }
-
-    @Override
-    public boolean isExists(Long id) {
-        String sqlQuery = "SELECT film_id FROM films WHERE film_id = ?";
-        return jdbcTemplate.queryForRowSet(sqlQuery, id).next();
     }
 
     private void addGenre(Long filmId, List<Genre> genres) {

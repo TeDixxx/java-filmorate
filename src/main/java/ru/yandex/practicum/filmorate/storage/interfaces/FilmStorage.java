@@ -5,14 +5,16 @@ import java.util.List;
 
 public interface FilmStorage {
 
-    Film addFilm(Film film);
+   void addFilm(Film film);
 
-    Film updateFilm(Film film);
+    void updateFilm(Film film);
 
     Film getFilm(Long filmId);
 
     List<Film> getAllFilms();
 
     boolean isExists(Long id);
+
+
 
 }
