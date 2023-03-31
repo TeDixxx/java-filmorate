@@ -30,7 +30,7 @@ public class MpaDbStorage implements MpaStorage {
 
     @Override
     public List<Mpa> getAll() {
-        String sqlQuery = "SELECT* FROM mpa";
+        String sqlQuery = "SELECT* FROM mpa ORDER BY mpa_id";
 
         return jdbcTemplate.query(sqlQuery, this::mapRowToRating);
     }
