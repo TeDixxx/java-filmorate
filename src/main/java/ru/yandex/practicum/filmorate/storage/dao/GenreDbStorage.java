@@ -21,12 +21,11 @@ public class GenreDbStorage implements GenreStorage {
 
     @Override
     public Genre getById(Long id) throws ValidationException {
-        if(!isExist(id)) {
+        if (!isExist(id)) {
             throw new ValidationException("Не найдено");
         }
-            String sqlQuery = "SELECT* FROM genres WHERE genre_id = ?";
-            return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToGenre, id);
-
+        String sqlQuery = "SELECT* FROM genres WHERE genre_id = ?";
+        return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToGenre, id);
     }
 
     @Override
