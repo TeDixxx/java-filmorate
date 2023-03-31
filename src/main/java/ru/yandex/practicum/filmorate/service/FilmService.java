@@ -13,6 +13,7 @@ import ru.yandex.practicum.filmorate.storage.interfaces.LikeStorage;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -71,7 +72,8 @@ public class FilmService {
     }
 
     public List<Film> getPopularFilms(int count) {
-        return filmStorage.getPopular(count);
+        return filmStorage.getAllFilms().stream().sorted((o1, o2) -> o2.getLikes().size() - o1.getLikes().size())
+                .limit(count).collect(Collectors.toList());
     }
 
     private void isExists(Long id) {
