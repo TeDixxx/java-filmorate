@@ -19,18 +19,18 @@ public class GenreDbStorage implements GenreStorage {
     }
 
     @Override
-    public Genre getById(Long id) {
+    public Genre getById(Long id) throws NotFoundException {
         if (!isExist(id)) {
             throw new NotFoundException("Не найдено");
         }
-        String sqlQuery = "SELECT* FROM genre WHERE genre_id = ?";
+        String sqlQuery = "SELECT* FROM genres WHERE genre_id = ?";
 
         return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToGenre, id);
     }
 
     @Override
     public List<Genre> getAll() {
-        String sqlQuery = "SELECT* FROM genre ORDER BY 1";
+        String sqlQuery = "SELECT* FROM genres ORDER BY 1";
 
         return jdbcTemplate.query(sqlQuery, this::mapRowToGenre);
     }

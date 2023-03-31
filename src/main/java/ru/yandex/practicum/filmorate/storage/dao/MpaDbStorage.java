@@ -20,7 +20,7 @@ public class MpaDbStorage implements MpaStorage {
     }
 
     @Override
-    public Mpa getById(Long id) {
+    public Mpa getById(Long id) throws NotFoundException {
         if (!isExist(id)) {
             throw new NotFoundException("Не найдено");
         }
