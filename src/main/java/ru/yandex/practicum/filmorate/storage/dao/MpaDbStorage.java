@@ -36,10 +36,10 @@ public class MpaDbStorage implements MpaStorage {
     }
 
     @Override
-    public Mpa getFilmMpa(Long filmId) {
+    public Mpa getFilmMpa(Long mpaId) {
         String sqlQuery = "SELECT* FROM mpa WHERE mpa_id = ?";
 
-        return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToRating, filmId);
+        return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToRating, mpaId);
     }
 
     private Mpa mapRowToRating(ResultSet resultSet, int rowNumber) throws SQLException {
