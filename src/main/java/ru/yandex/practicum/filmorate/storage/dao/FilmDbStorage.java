@@ -106,9 +106,9 @@ public class FilmDbStorage implements FilmStorage {
         deleteGenre(filmId);
         if (genres != null) {
             if (!genres.isEmpty()) {
-                StringBuilder sqlQuery = new StringBuilder("INSERT INTO film_genres (film_id, genre_id VALUES");
-                for (Genre genre : new HashSet<>(genres)) {
-                    sqlQuery.append("(").append(filmId).append(",").append(genre.getId()).append("),");
+                StringBuilder sqlQuery = new StringBuilder("MERGE INTO film_genre (film_id, genre_id) VALUES ");
+                for (Genre filmGenre : new HashSet<>(genres)) {
+                    sqlQuery.append("(").append(filmId).append(", ").append(filmGenre.getId()).append("), ");
                 }
                 sqlQuery.delete(sqlQuery.length() - 2, sqlQuery.length());
                 jdbcTemplate.update(sqlQuery.toString());
