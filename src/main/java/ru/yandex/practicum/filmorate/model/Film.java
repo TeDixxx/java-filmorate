@@ -41,11 +41,4 @@ public class Film {
         this.genres = genres;
     }
 
-    public void addLikes(long id) {
-        likes.add(id);
-    }
-
-    public void removeLike(long id) {
-        likes.remove(id);
-    }
 }

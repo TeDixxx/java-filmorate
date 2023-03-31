@@ -96,7 +96,7 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     private void addGenre(Long filmId, List<Genre> genres) {
-
+        deleteGenre(filmId);
         if (genres != null) {
             if (!genres.isEmpty()) {
                 StringBuilder sqlQuery = new StringBuilder("INSERT INTO film_genres (film_id, genre_id VALUES");
@@ -107,5 +107,10 @@ public class FilmDbStorage implements FilmStorage {
                 jdbcTemplate.update(sqlQuery.toString());
             }
         }
+    }
+
+    private void deleteGenre(Long filmId) {
+        String sqlQuery = "DELETE FROM film_genres WHERE film_id = ?";
+        jdbcTemplate.update(sqlQuery, filmId);
     }
 }
