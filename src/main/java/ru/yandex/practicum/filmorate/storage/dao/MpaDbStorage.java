@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.dao;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
@@ -29,10 +30,13 @@ public class MpaDbStorage implements MpaStorage {
     }
 
     @Override
-    public List<Mpa> getAll() {
-        String sqlQuery = "SELECT* FROM mpa ORDER BY mpa_id";
-
-        return jdbcTemplate.query(sqlQuery, this::mapRowToRating);
+    public List<Mpa> getAll() throws EmptyResultDataAccessException {
+        try {
+            String sqlQuery = "SELECT* FROM mpa ORDER BY mpa_id";
+            return jdbcTemplate.query(sqlQuery, this::mapRowToRating);
+        } catch (EmptyResultDataAccessException exception) {
+            throw new NotFoundException("Not found");
+        }
     }
 
     @Override

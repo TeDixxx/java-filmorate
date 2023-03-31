@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.dao;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
@@ -19,13 +20,13 @@ public class GenreDbStorage implements GenreStorage {
     }
 
     @Override
-    public Genre getById(Long id) throws NotFoundException {
-        if (!isExist(id)) {
-            throw new NotFoundException("Не найдено");
+    public Genre getById(Long id) throws EmptyResultDataAccessException {
+        try {
+            String sqlQuery = "SELECT* FROM genres WHERE genre_id = ?";
+            return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToGenre, id);
+        } catch (EmptyResultDataAccessException exception) {
+            throw new NotFoundException("Not found");
         }
-        String sqlQuery = "SELECT* FROM genres WHERE genre_id = ?";
-
-        return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToGenre, id);
     }
 
     @Override
