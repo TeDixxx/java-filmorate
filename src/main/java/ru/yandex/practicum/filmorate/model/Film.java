@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import lombok.Data;
 
 
@@ -18,34 +19,5 @@ public class Film {
     private Mpa mpaId;
     private List<Genre> genres;
 
-    public Film() {
 
-    }
-
-    public Film(long id, String name, String description, LocalDate releaseDate, long duration) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.releaseDate = releaseDate;
-        this.duration = duration;
-    }
-
-    public Film(long id, String name, String description, LocalDate releaseDate, long duration, Mpa mpaId,
-                List<Genre> genres) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.releaseDate = releaseDate;
-        this.duration = duration;
-        this.mpaId = mpaId;
-        this.genres = genres;
-    }
-
-     public void addLikes(long id) {
-        likes.add(id);
-    }
-
-    public void removeLike(long id) {
-        likes.remove(id);
-    }
 }
