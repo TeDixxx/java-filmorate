@@ -13,6 +13,8 @@ public interface FilmStorage {
 
     List<Film> getAllFilms();
 
+    List<Film> getPopular(int count);
+
     boolean isExists(Long id);
 
 }

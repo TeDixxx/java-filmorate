@@ -70,9 +70,8 @@ public class FilmService {
         likeStorage.deleteLike(userID, filmID);
     }
 
-    public List<Film> getPopularFilms(long count) {
-        return filmStorage.getAllFilms().stream().sorted((o1, o2) -> o2.getLikes().size() - o1.getLikes().size())
-                .limit(count).collect(Collectors.toList());
+    public List<Film> getPopularFilms(int count) {
+        return filmStorage.getPopular(count);
     }
 
     private void isExists(Long id) {
