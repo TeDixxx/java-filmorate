@@ -21,7 +21,7 @@ public class GenreController {
     }
 
     @GetMapping("/{id}")
-    public Genre getById(@PathVariable Long id) throws NotFoundException {
+    public Genre getById(@PathVariable Long id) {
         return genreService.getById(id);
     }
 

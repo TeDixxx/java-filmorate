@@ -15,7 +15,7 @@ public class GenreService {
         this.genreStorage = genreStorage;
     }
 
-    public Genre getById(Long id) throws NotFoundException {
+    public Genre getById(Long id) {
         isExist(id);
         return genreStorage.getById(id);
     }

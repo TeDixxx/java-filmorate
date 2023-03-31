@@ -20,7 +20,7 @@ public class MpaController {
     }
 
     @GetMapping("/{id}")
-    public Mpa getById(@PathVariable Long id) throws NotFoundException {
+    public Mpa getById(@PathVariable Long id) {
         return mpaService.getById(id);
     }
 

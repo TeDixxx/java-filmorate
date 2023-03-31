@@ -16,7 +16,7 @@ public class MpaService {
         this.mpaStorage = mpaStorage;
     }
 
-    public Mpa getById(Long id) throws NotFoundException {
+    public Mpa getById(Long id) {
         isExists(id);
         return mpaStorage.getById(id);
     }
