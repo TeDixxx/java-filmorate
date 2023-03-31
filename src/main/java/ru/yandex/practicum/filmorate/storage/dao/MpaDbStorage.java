@@ -50,7 +50,8 @@ public class MpaDbStorage implements MpaStorage {
         return mpa;
     }
 
-    private boolean isExist(Long id) {
+    @Override
+    public boolean isExist(Long id) {
         String sqlQuery = "SELECT mpa_id FROM mpa WHERE mpa_id = ?";
 
         return jdbcTemplate.queryForRowSet(sqlQuery, id).next();

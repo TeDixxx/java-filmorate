@@ -11,4 +11,6 @@ public interface MpaStorage {
     List<Mpa> getAll();
 
     Mpa getFilmMpa(Long filmId);
+
+    boolean isExist(Long id);
 }

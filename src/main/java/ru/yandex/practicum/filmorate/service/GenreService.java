@@ -16,10 +16,18 @@ public class GenreService {
     }
 
     public Genre getById(Long id) throws NotFoundException {
+        isExist(id);
         return genreStorage.getById(id);
     }
 
     public List<Genre> getAll() {
         return genreStorage.getAll();
+    }
+
+    public void isExist(Long id) {
+        if (!genreStorage.isExist(id)) {
+            throw new NotFoundException("Не найдено");
+        }
+
     }
 }

@@ -51,7 +51,8 @@ public class GenreDbStorage implements GenreStorage {
         return genre;
     }
 
-    private boolean isExist(Long id) {
+    @Override
+    public boolean isExist(Long id) {
         String sqlQuery = "SELECT genre_id FROM genres WHERE genre_id = ?";
         return jdbcTemplate.queryForRowSet(sqlQuery, id).next();
     }

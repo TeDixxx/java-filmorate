@@ -17,6 +17,7 @@ public class MpaService {
     }
 
     public Mpa getById(Long id) throws NotFoundException {
+        isExists(id);
         return mpaStorage.getById(id);
     }
 
@@ -26,5 +27,11 @@ public class MpaService {
 
     public Mpa getFilmMpa(Long filmId) {
         return mpaStorage.getFilmMpa(filmId);
+    }
+
+    public void isExists(Long id) {
+        if (!mpaStorage.isExist(id)) {
+            throw new NotFoundException("Не найдено!");
+        }
     }
 }

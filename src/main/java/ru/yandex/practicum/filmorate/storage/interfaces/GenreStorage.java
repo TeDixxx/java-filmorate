@@ -10,4 +10,6 @@ public interface GenreStorage {
     List<Genre> getAll();
 
     List<Genre> getFilmGenre(Long filmId);
+
+    boolean isExist(Long id);
 }
