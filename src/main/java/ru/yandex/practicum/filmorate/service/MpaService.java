@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.storage.interfaces.MpaStorage;
 
@@ -15,7 +16,7 @@ public class MpaService {
         this.mpaStorage = mpaStorage;
     }
 
-    public Mpa getById(Long id) {
+    public Mpa getById(Long id) throws ValidationException {
         return mpaStorage.getById(id);
     }
 
