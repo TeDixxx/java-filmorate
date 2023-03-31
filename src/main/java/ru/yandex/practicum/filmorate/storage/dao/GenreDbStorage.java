@@ -23,23 +23,24 @@ public class GenreDbStorage implements GenreStorage {
         if (!isExist(id)) {
             throw new NotFoundException("Не найдено");
         }
-        String sqlQuery = "SELECT* FROM genres WHERE genre_id = ?";
+        String sqlQuery = "SELECT* FROM genre WHERE genre_id = ?";
 
         return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToGenre, id);
     }
 
     @Override
     public List<Genre> getAll() {
-        String sqlQuery = "SELECT* FROM genres ORDER BY 1";
+        String sqlQuery = "SELECT* FROM genre ORDER BY 1";
 
         return jdbcTemplate.query(sqlQuery, this::mapRowToGenre);
     }
 
     @Override
     public List<Genre> getFilmGenre(Long filmId) {
-        String sqlQuery = "SELECT FROM genres AS g LEFT JOIN film_genres AS fg ON g.genre_id = fg.genre_id WHERE fg.film_id = ? ORDER BY g.genre_id";
+        // = "SELECT * FROM genre AS gen LEFT JOIN film_genre AS fg ON gen.genre_id = fg.genre_id WHERE fg.film_id = ? ORDER BY gen.genre_id";
+        String sqlQuery = "SELECT * FROM film_genres JOIN genres ON genres.genre_id = film_genres.genre_id WHERE film_id = ?";
 
-        return jdbcTemplate.query(sqlQuery, this::mapRowToGenre);
+        return jdbcTemplate.query(sqlQuery, this::mapRowToGenre, filmId);
     }
 
 
