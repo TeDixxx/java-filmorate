@@ -21,12 +21,12 @@ public class MpaDbStorage implements MpaStorage {
     }
 
     @Override
-    public Mpa getById(Long id) throws NotFoundException {
+    public Mpa getById(Long id) {
         try {
             String sqlQuery = "SELECT* FROM mpa WHERE mpa_id = ?";
             return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToRating, id);
-        } catch (EmptyResultDataAccessException exception) {
-            throw new NotFoundException("Ошибка! NotFoundException");
+        } catch (Exception exception) {
+            return null;
         }
 
     }
