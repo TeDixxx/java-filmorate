@@ -78,7 +78,12 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public List<Film> getPopular(int count) {
-        String sql = "SELECT* FROM films AS f LEFT JOIN film_likes fl ON f.film_id = fl.film_id GROUP BY f.film_id ORDER BY COUNT(fl.user_id) DESC LIMIT ?";
+        String sql = "SELECT * " +
+                "FROM films AS f " +
+                "LEFT JOIN film_likes AS fl ON f.film_id = fl.film_id " +
+                "GROUP BY f.film_id " +
+                "ORDER BY COUNT(fl.user_id) DESC " +
+                "LIMIT ?";
 
         return jdbcTemplate.query(sql, this::mapRowToFilm, count);
     }

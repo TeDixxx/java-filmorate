@@ -1,8 +1,6 @@
 package ru.yandex.practicum.filmorate.service;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.storage.interfaces.MpaStorage;
 
@@ -17,12 +15,8 @@ public class MpaService {
         this.mpaStorage = mpaStorage;
     }
 
-    public Mpa getById(Long id) throws EmptyResultDataAccessException {
-        try {
-            return mpaStorage.getById(id);
-        } catch (EmptyResultDataAccessException exception) {
-            throw new NotFoundException("Не найдено");
-        }
+    public Mpa getById(Long id) {
+        return mpaStorage.getById(id);
     }
 
     public List<Mpa> getAll() {
@@ -33,9 +27,4 @@ public class MpaService {
         return mpaStorage.getFilmMpa(filmId);
     }
 
-    public void isExists(Long id) {
-        if (!mpaStorage.isExist(id)) {
-            throw new NotFoundException("Не найдено!");
-        }
-    }
 }

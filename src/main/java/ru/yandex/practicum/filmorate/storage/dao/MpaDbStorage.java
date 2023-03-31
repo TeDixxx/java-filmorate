@@ -22,11 +22,13 @@ public class MpaDbStorage implements MpaStorage {
 
     @Override
     public Mpa getById(Long id) throws NotFoundException {
-        if (!isExist(id)) {
-            throw new NotFoundException("Не найдено");
+        try{
+            String sqlQuery = "SELECT* FROM mpa WHERE mpa_id = ?";
+            return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToRating, id);
+        } catch (EmptyResultDataAccessException exception) {
+            throw new NotFoundException("Ошибка! NotFoundException");
         }
-        String sqlQuery = "SELECT* FROM mpa WHERE mpa_id = ?";
-        return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToRating, id);
+
     }
 
     @Override
