@@ -20,6 +20,9 @@ public class GenreDbStorage implements GenreStorage {
 
     @Override
     public Genre getById(Long id) {
+        if (!isExist(id)) {
+            return null;
+        }
         String sqlQuery = "SELECT* FROM genres WHERE genre_id = ?";
         return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToGenre, id);
     }

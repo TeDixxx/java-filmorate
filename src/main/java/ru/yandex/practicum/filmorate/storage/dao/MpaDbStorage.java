@@ -20,14 +20,17 @@ public class MpaDbStorage implements MpaStorage {
 
     @Override
     public Mpa getById(Long id) {
+        if (!isExist(id)) {
+            return null;
+        }
         String sqlQuery = "SELECT* FROM mpa WHERE mpa_id = ?";
         return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToRating, id);
     }
 
     @Override
     public List<Mpa> getAll() {
-            String sqlQuery = "SELECT* FROM mpa ORDER BY mpa_id";
-            return jdbcTemplate.query(sqlQuery, this::mapRowToRating);
+        String sqlQuery = "SELECT* FROM mpa ORDER BY mpa_id";
+        return jdbcTemplate.query(sqlQuery, this::mapRowToRating);
     }
 
     @Override
