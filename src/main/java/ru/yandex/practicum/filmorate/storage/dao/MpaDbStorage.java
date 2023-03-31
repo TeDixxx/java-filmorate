@@ -37,7 +37,7 @@ public class MpaDbStorage implements MpaStorage {
             String sqlQuery = "SELECT* FROM mpa ORDER BY mpa_id";
             return jdbcTemplate.query(sqlQuery, this::mapRowToRating);
         } catch (Exception exception) {
-            throw new NotFoundException("Not found");
+            return null;
         }
     }
 
