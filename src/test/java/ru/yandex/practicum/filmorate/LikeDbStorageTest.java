@@ -63,7 +63,7 @@ public class LikeDbStorageTest {
         Film film = new Film();
         Mpa mpa = new Mpa();
         film.setName("filmName");
-        mpa.setId(3L);
+        mpa.setId(4L);
         film.setMpa(mpa);
         film.setReleaseDate(LocalDate.of(2012, 12, 12));
 
@@ -73,7 +73,7 @@ public class LikeDbStorageTest {
         filmForUp.setId(film.getId());
         Mpa mpa2 = new Mpa();
         filmForUp.setName("forUp");
-        mpa2.setId(3L);
+        mpa2.setId(4L);
         filmForUp.setMpa(mpa2);
         filmForUp.setReleaseDate(LocalDate.of(2012, 12, 12));
 
