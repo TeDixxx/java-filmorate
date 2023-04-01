@@ -72,6 +72,9 @@ public class FilmService {
     }
 
     public List<Film> getPopularFilms(int count) {
+        if (filmStorage.getPopular(count).isEmpty()) {
+            return filmStorage.getAllFilms();
+        }
         return filmStorage.getPopular(count);
     }
 
