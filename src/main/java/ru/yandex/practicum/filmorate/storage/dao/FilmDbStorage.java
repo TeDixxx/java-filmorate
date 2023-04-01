@@ -64,28 +64,28 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film getFilm(Long filmId) {
-        String sqlQuery = "SELECT* FROM films WHERE film_id = ?";
+        String sqlQuery = "SELECT * FROM films WHERE film_id = ?";
 
         return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToFilm, filmId);
     }
 
     @Override
     public List<Film> getAllFilms() {
-        String sqlQuery = "SELECT* FROM films";
+        String sqlQuery = "SELECT * FROM films";
 
         return jdbcTemplate.query(sqlQuery, this::mapRowToFilm);
     }
 
     @Override
     public List<Film> getPopular(int count) {
-        String sql = "SELECT * " +
-                "FROM films AS f " +
-                "LEFT JOIN film_likes AS fl ON f.film_id = fl.film_id " +
-                "GROUP BY f.film_id " +
-                "ORDER BY COUNT(fl.user_id) DESC " +
-                "LIMIT ?";
-
-        return jdbcTemplate.query(sql, this::mapRowToFilm, count);
+        String sqlQuery =
+                "SELECT f.film_id, name, description, release_date, duration, mpa_id " +
+                        "FROM films AS f " +
+                        "LEFT JOIN film_likes AS fl ON f.film_id = fl.film_id " +
+                        "GROUP BY f.film_id " +
+                        "ORDER BY COUNT(fl.user_id) DESC " +
+                        "LIMIT ?";
+        return jdbcTemplate.query(sqlQuery, this::mapRowToFilm, count);
     }
 
     private Film mapRowToFilm(ResultSet resultSet, int rowNumber) throws SQLException {

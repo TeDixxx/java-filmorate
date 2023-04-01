@@ -12,6 +12,7 @@ import ru.yandex.practicum.filmorate.storage.interfaces.LikeStorage;
 
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -72,9 +73,6 @@ public class FilmService {
     }
 
     public List<Film> getPopularFilms(int count) {
-        if (filmStorage.getPopular(count).isEmpty()) {
-            return filmStorage.getAllFilms();
-        }
         return filmStorage.getPopular(count);
     }
 
