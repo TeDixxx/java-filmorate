@@ -62,7 +62,7 @@ public class FilmService {
     public void addLike(Long filmID, Long userID) {
         isExists(filmID);
         userService.isExists(userID);
-        likeStorage.deleteLike(userID, filmID);
+        likeStorage.addLike(userID, filmID);
     }
 
     public void removeLike(Long filmID, Long userID) {
