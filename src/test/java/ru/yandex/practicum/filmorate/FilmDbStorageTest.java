@@ -50,6 +50,7 @@ public class FilmDbStorageTest {
         Film film = new Film();
         Mpa filmMpa = new Mpa();
         film.setName("xxx");
+
         filmMpa.setId(1L);
         film.setMpa(filmMpa);
 

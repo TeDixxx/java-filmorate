@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.GenreStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.MpaStorage;
@@ -22,6 +23,7 @@ public class FilmDbStorage implements FilmStorage {
     private final JdbcTemplate jdbcTemplate;
     private final MpaStorage mpaStorage;
     private final GenreStorage genreStorage;
+    // private final MpaStorage mpaStorage;
 
     @Override
     public Film addFilm(Film film) {
@@ -94,7 +96,7 @@ public class FilmDbStorage implements FilmStorage {
         film.setDescription(resultSet.getString("description"));
         film.setReleaseDate(resultSet.getDate("release_date").toLocalDate());
         film.setDuration(resultSet.getLong("duration"));
-        film.setMpa(mpaStorage.getFilmMpa(resultSet.getLong("mpa_id")));
+        film.setMpa(mpaStorage.getById(resultSet.getLong("mpa_id")).orElseThrow());
         film.setGenres(genreStorage.getFilmGenre(film.getId()));
 
         return film;
