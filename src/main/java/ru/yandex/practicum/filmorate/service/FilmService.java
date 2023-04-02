@@ -52,7 +52,7 @@ public class FilmService {
 
     public Film getFilm(Long filmID) {
 
-        return filmStorage.getFilm(filmID).orElseThrow();
+        return filmStorage.getFilm(filmID).orElseThrow(() -> {throw new NotFoundException("Фильм не найден");});
     }
 
     public List<Film> getAllFilms() {

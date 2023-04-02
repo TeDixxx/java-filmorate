@@ -39,7 +39,8 @@ public class UserService {
     }
 
     public User getUser(Long userID) throws NotFoundException {
-        return userStorage.getUser(userID).orElseThrow();
+        return userStorage.getUser(userID).orElseThrow(() -> {throw new NotFoundException("Пользователь не найден");});
+
     }
 
     public List<User> getAllUsers() {
