@@ -46,7 +46,7 @@ public class FilmService {
         }
         isExists(film.getId());
         filmStorage.updateFilm(film);
-        return filmStorage.updateFilm(film);
+        return filmStorage.getFilm(film.getId()).orElseThrow();
     }
 
     public Film getFilm(Long filmID) {

@@ -4,6 +4,7 @@ package ru.yandex.practicum.filmorate.storage.dao;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.interfaces.GenreStorage;
 
@@ -39,7 +40,7 @@ public class GenreDbStorage implements GenreStorage {
 
     @Override
     public List<Genre> getFilmGenre(Long filmId) {
-        isExist(filmId);
+
         String sqlQuery = "SELECT * FROM film_genres JOIN genres ON genres.genre_id = film_genres.genre_id WHERE film_id = ?";
 
         return jdbcTemplate.query(sqlQuery, this::mapRowToGenre, filmId);
