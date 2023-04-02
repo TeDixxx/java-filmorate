@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.storage.dao;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -51,10 +53,14 @@ public class UserDbStorage implements UserStorage {
     }
 
     @Override
-    public User getUser(Long id) throws NotFoundException {
+    public Optional<User> getUser(Long id) throws NotFoundException {
         String sqlQuery = "SELECT user_id,login,email,name,birthday FROM users WHERE user_id = ?";
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sqlQuery, this::mapRowToUser, id));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
 
-        return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToUser, id);
     }
 
     @Override
@@ -75,7 +81,7 @@ public class UserDbStorage implements UserStorage {
     public boolean isExists(Long id) {
         String sqlQuery = "SELECT user_id FROM users WHERE user_id = ?";
 
-        return jdbcTemplate.queryForRowSet(sqlQuery,id).next();
+        return jdbcTemplate.queryForRowSet(sqlQuery, id).next();
     }
 
     private User mapRowToUser(ResultSet resultSet, int rowNumber) throws SQLException {

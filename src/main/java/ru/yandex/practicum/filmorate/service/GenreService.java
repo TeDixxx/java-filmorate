@@ -18,10 +18,7 @@ public class GenreService {
     }
 
     public Genre getById(Long id) {
-        if (genreStorage.getById(id) == null) {
-            throw new NotFoundException("Not found");
-        }
-        return genreStorage.getById(id);
+        return genreStorage.getById(id).orElseThrow();
     }
 
     public List<Genre> getAll() {

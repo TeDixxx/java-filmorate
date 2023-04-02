@@ -10,6 +10,7 @@ import ru.yandex.practicum.filmorate.storage.interfaces.MpaStorage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class MpaDbStorage implements MpaStorage {
@@ -21,12 +22,12 @@ public class MpaDbStorage implements MpaStorage {
     }
 
     @Override
-    public Mpa getById(Long id) {
+    public Optional<Mpa> getById(Long id) {
+        String sqlQuery = "SELECT* FROM mpa WHERE mpa_id = ?";
         try {
-            String sqlQuery = "SELECT* FROM mpa WHERE mpa_id = ?";
-            return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToRating, id);
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sqlQuery, this::mapRowToRating, id));
         } catch (EmptyResultDataAccessException exception) {
-            throw new NotFoundException("Не удалось найти данное id");
+            return Optional.empty();
         }
     }
 

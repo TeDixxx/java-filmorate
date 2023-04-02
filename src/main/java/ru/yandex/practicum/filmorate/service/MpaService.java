@@ -17,10 +17,7 @@ public class MpaService {
     }
 
     public Mpa getById(Long id) {
-        if (mpaStorage.getById(id) == null) {
-            throw new NotFoundException("Not found");
-        }
-        return mpaStorage.getById(id);
+        return mpaStorage.getById(id).orElseThrow();
     }
 
     public List<Mpa> getAll() {

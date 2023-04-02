@@ -11,6 +11,7 @@ import ru.yandex.practicum.filmorate.storage.interfaces.GenreStorage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class GenreDbStorage implements GenreStorage {
@@ -21,12 +22,12 @@ public class GenreDbStorage implements GenreStorage {
     }
 
     @Override
-    public Genre getById(Long id) {
+    public Optional<Genre> getById(Long id) {
+        String sqlQuery = "SELECT* FROM genres WHERE genre_id = ?";
         try {
-            String sqlQuery = "SELECT* FROM genres WHERE genre_id = ?";
-            return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToGenre, id);
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sqlQuery, this::mapRowToGenre, id));
         } catch (EmptyResultDataAccessException exception) {
-            throw new NotFoundException("Не удалось найти данный id");
+            return Optional.empty();
         }
     }
 

@@ -39,8 +39,7 @@ public class UserService {
     }
 
     public User getUser(Long userID) throws NotFoundException {
-        isExists(userID);
-        return userStorage.getUser(userID);
+        return userStorage.getUser(userID).orElseThrow();
     }
 
     public List<User> getAllUsers() {
@@ -48,9 +47,9 @@ public class UserService {
     }
 
     public void addFriend(Long userID, Long friendID) {
-            isExists(userID);
-            isExists(friendID);
-            friendsStorage.addFriend(userID, friendID);
+        isExists(userID);
+        isExists(friendID);
+        friendsStorage.addFriend(userID, friendID);
     }
 
     public void deleteFriend(Long userID, Long friendID) {
@@ -60,13 +59,13 @@ public class UserService {
     }
 
     public List<User> getUserFriends(Long userID) throws NotFoundException {
-       isExists(userID);
+        isExists(userID);
         return friendsStorage.getAllUserFriends(userID);
     }
 
     public List<User> getCommonFriends(Long userID, Long friendID) {
-       isExists(userID);
-       isExists(friendID);
+        isExists(userID);
+        isExists(friendID);
         return friendsStorage.getCommonFriends(userID, friendID);
     }
 
