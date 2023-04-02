@@ -33,24 +33,24 @@ public class FriendsDbStorage implements FriendsStorage {
     @Override
     public List<User> getAllUserFriends(Long userId) {
         String sqlQuery = "SELECT* FROM users AS u LEFT JOIN user_friends AS uf ON u.user_id = uf.friend_id WHERE uf.user_id = ?";
-        return jdbcTemplate.query(sqlQuery,this::mapRowToUser,userId);
+        return jdbcTemplate.query(sqlQuery, this::mapRowToUser, userId);
     }
 
     @Override
     public List<User> getCommonFriends(Long userId, Long secondId) {
         String sqlQuery = "SELECT* FROM users WHERE user_id IN (SELECT friend_id FROM user_friends WHERE user_id IN(?,?) GROUP BY friend_id HAVING COUNT(friend_id) >1)";
-        return jdbcTemplate.query(sqlQuery,this::mapRowToUser,userId,secondId);
+        return jdbcTemplate.query(sqlQuery, this::mapRowToUser, userId, secondId);
     }
 
-        private User mapRowToUser(ResultSet resultSet, int rowNumber) throws SQLException {
-            User user = new User();
-            user.setId(resultSet.getInt("user_id"));
-            user.setEmail(resultSet.getString("email"));
-            user.setLogin(resultSet.getString("login"));
-            user.setName(resultSet.getString("name"));
-            user.setBirthday(resultSet.getDate("birthday").toLocalDate());
+    private User mapRowToUser(ResultSet resultSet, int rowNumber) throws SQLException {
+        User user = new User();
+        user.setId(resultSet.getInt("user_id"));
+        user.setEmail(resultSet.getString("email"));
+        user.setLogin(resultSet.getString("login"));
+        user.setName(resultSet.getString("name"));
+        user.setBirthday(resultSet.getDate("birthday").toLocalDate());
 
-            return user;
-        }
+        return user;
     }
+}
 
