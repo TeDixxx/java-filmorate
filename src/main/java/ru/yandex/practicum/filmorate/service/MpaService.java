@@ -17,7 +17,9 @@ public class MpaService {
     }
 
     public Mpa getById(Long id) {
-        return mpaStorage.getById(id).orElseThrow(() -> {throw new NotFoundException("Не найдено");});
+        return mpaStorage.getById(id).orElseThrow(() -> {
+            throw new NotFoundException("Не найдено");
+        });
     }
 
     public List<Mpa> getAll() {

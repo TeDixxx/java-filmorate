@@ -19,7 +19,9 @@ public class GenreService {
     }
 
     public Genre getById(Long id) {
-        return genreStorage.getById(id).orElseThrow(() -> {throw new NotFoundException("Не найдено");});
+        return genreStorage.getById(id).orElseThrow(() -> {
+            throw new NotFoundException("Не найдено");
+        });
     }
 
     public List<Genre> getAll() {

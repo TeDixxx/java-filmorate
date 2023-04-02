@@ -15,7 +15,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 
-
 @Service
 public class FilmService {
 
@@ -52,7 +51,9 @@ public class FilmService {
 
     public Film getFilm(Long filmID) {
 
-        return filmStorage.getFilm(filmID).orElseThrow(() -> {throw new NotFoundException("Фильм не найден");});
+        return filmStorage.getFilm(filmID).orElseThrow(() -> {
+            throw new NotFoundException("Фильм не найден");
+        });
     }
 
     public List<Film> getAllFilms() {
